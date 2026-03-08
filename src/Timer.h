@@ -12,11 +12,11 @@ public:
 	~Timer();
 
 	void start();
-	void sleepUnitl(double ms);
+	void sleepUnitlElapsed(double ms);
 
 	double getElapsedTime() { return mTimeElapsed; }
 
 private:
 	double mTimeElapsed;
-	double mStartTime;
+	std::chrono::steady_clock::time_point mStartTime;
 };

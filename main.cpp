@@ -34,7 +34,9 @@ int main(int argc, char* argv[]) {
 
     //Square variables
     Vector2 dir = Vector2(1, 1);
-    float speed = 3; //3 Pixels per frame
+
+    //Keep speed the same for all fps
+    float speed = 1 * Game::instnace()->getTargetFrameLengthMS();
 
     //Get array of keys and their state
     const bool* keys = SDL_GetKeyboardState(nullptr);
@@ -98,7 +100,8 @@ int main(int argc, char* argv[]) {
         //flip
         Game::instnace()->getGraphicsSystem()->flip();
 
-        timer.sleepUnitl(Game::instnace()->getTargetFrameLengthMS());
+        //Sleep until end of frame length
+        timer.sleepUnitlElapsed(Game::instnace()->getTargetFrameLengthMS());
         Debug::log(BLUE, "[TIME]") << timer.getElapsedTime();
     }
 
