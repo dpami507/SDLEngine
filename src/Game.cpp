@@ -31,7 +31,7 @@ bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& g
     Debug::log(YELLOW) << "Initializing Game";
 
     //Set game variables
-    mFPS = gameFPS;
+    setFPS(gameFPS);
 
     //Create manager
     mGameObjectManager = new GameObjectManager();
@@ -63,6 +63,12 @@ void Game::cleanup()
 
     delete mGraphicsSystem;
     mGraphicsSystem = nullptr;
+}
+
+void Game::setFPS(uint32_t FPS)
+{
+    mFPS = FPS;
+    mTargetFrameLengthMS = 1000.0f / FPS;
 }
 
 Game::Game()

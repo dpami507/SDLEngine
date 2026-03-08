@@ -20,7 +20,11 @@ public:
 	GameObjectManager* getGameObjectManager() { return mGameObjectManager; }
 	GraphicsSystem* getGraphicsSystem() { return mGraphicsSystem; }
 
-	bool running() { return mRunning; }
+	uint32_t getFPS() { return mFPS; }
+	void setFPS(uint32_t FPS);
+	double getTargetFrameLengthMS() { return mTargetFrameLengthMS; }
+
+	bool running() const { return mRunning; }
 
 	bool init(const uint32_t& width = 800, const uint32_t& height = 600, const uint32_t& gameFPS = 60);
 	void cleanup();
@@ -36,8 +40,10 @@ private:
 	GameObjectManager* mGameObjectManager;
 	GraphicsSystem* mGraphicsSystem;
 
-	//Game Variables
+	//Game FPS
 	uint32_t mFPS;
-
+	//Frame length in miliseconds
+	double mTargetFrameLengthMS;
+	//Is the game running?
 	bool mRunning;
 };

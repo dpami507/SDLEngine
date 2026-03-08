@@ -30,7 +30,7 @@ FetchContent_MakeAvailable(asio)
 # =================================================
 
 # Add source to this project's executable.
-add_executable (SDLProject "main.cpp" "src/Vector2.cpp" "src/Vector2.h" "src/GameObject.cpp" "src/GameObject.h" "src/Sprite.cpp" "src/Sprite.h" "src/Game.cpp" "src/Game.h" "src/MemoryTracker.cpp" "src/Tracked.h" "src/Tracked.cpp" "src/GameObjectManager.h" "src/GameObjectManager.cpp" "src/Debug.cpp" "src/Debug.h" "src/GraphicsSystem.h" "src/GraphicsSystem.cpp" "src/Color.h" "src/Color.cpp")
+add_executable (SDLProject "main.cpp" "src/Vector2.cpp" "src/Vector2.h" "src/GameObject.cpp" "src/GameObject.h" "src/Sprite.cpp" "src/Sprite.h" "src/Game.cpp" "src/Game.h" "src/MemoryTracker.cpp" "src/Tracked.h" "src/Tracked.cpp" "src/GameObjectManager.h" "src/GameObjectManager.cpp" "src/Debug.cpp" "src/Debug.h" "src/GraphicsSystem.h" "src/GraphicsSystem.cpp" "src/Color.h" "src/Color.cpp" "src/Timer.h" "src/Timer.cpp")
 
 # Interface library
 add_library(asio INTERFACE)

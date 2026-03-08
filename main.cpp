@@ -7,6 +7,7 @@
 #include "src/Sprite.h"
 #include "src/GameObject.h"
 #include "src/MemoryTracker.h"
+#include "src/Timer.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -23,6 +24,9 @@ int main(int argc, char* argv[]) {
     Game::createInstance();
     Game::instnace()->init(SCREEN_WIDTH, SCREEN_HEIGHT, 60);
 
+    //Create Timer
+    Timer timer;
+
     //Create player
     Sprite* sprite = new Sprite("resources/dvd.png", 125, 58);
     GameObject* player = Game::instnace()->getGameObjectManager()->instantiate();
@@ -30,7 +34,7 @@ int main(int argc, char* argv[]) {
 
     //Square variables
     Vector2 dir = Vector2(1, 1);
-    float speed = 0.025;
+    float speed = 3; //3 Pixels per frame
 
     //Get array of keys and their state
     const bool* keys = SDL_GetKeyboardState(nullptr);
@@ -38,7 +42,11 @@ int main(int argc, char* argv[]) {
     while (Game::instnace()->running()) {
         SDL_Event event;
 
-        Game::instnace()->getGraphicsSystem()->clearToColor();
+        //Start timer
+        timer.start();
+
+        //Clear the screen to a color
+        Game::instnace()->getGraphicsSystem()->clearToColor({0, 0, 0, 255});
 
         //Wait for events
         while (SDL_PollEvent(&event))
@@ -89,6 +97,9 @@ int main(int argc, char* argv[]) {
 
         //flip
         Game::instnace()->getGraphicsSystem()->flip();
+
+        timer.sleepUnitl(Game::instnace()->getTargetFrameLengthMS());
+        Debug::log(BLUE, "[TIME]") << timer.getElapsedTime();
     }
 
     //Cleanup

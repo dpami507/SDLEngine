@@ -3,6 +3,7 @@
 
 #include "Tracked.h"
 #include "Debug.h"
+#include "Color.h"
 
 class GraphicsSystem : public Tracked
 {
@@ -16,7 +17,7 @@ public:
 	SDL_Window* getWindow() { return mWindow; }
 	SDL_Renderer* getRenderer() { return mRenderer; }
 
-	void clearToColor();
+	void clearToColor(Color color);
 	void flip();
 
 private:
