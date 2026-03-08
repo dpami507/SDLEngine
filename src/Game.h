@@ -22,7 +22,8 @@ public:
 
 	uint32_t getFPS() { return mFPS; }
 	void setFPS(uint32_t FPS);
-	double getTargetFrameLengthMS() { return mTargetFrameLengthMS; }
+	double getFrameLengthMS() { return mTargetFrameLengthMS; }
+	double getDeltaTime() { return mDeltaTime; }
 
 	bool running() const { return mRunning; }
 
@@ -44,6 +45,8 @@ private:
 	uint32_t mFPS;
 	//Frame length in miliseconds
 	double mTargetFrameLengthMS;
+	//Delta Time
+	double mDeltaTime;
 	//Is the game running?
 	bool mRunning;
 };

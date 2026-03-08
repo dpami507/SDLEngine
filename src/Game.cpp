@@ -68,7 +68,8 @@ void Game::cleanup()
 void Game::setFPS(uint32_t FPS)
 {
     mFPS = FPS;
-    mTargetFrameLengthMS = 1000.0f / FPS;
+    mTargetFrameLengthMS = 1000.0 / FPS;
+    mDeltaTime = 1.0 / FPS;
 }
 
 Game::Game()

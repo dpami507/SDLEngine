@@ -15,7 +15,6 @@ const int SCREEN_HEIGHT = 600;
 int main(int argc, char* argv[]) {
 
     //TODO
-    //1. Add frame waiting so time is constant
     //2. Update game loop so it doesn't use SDL functions 
     //   a. Add Input System (wait for event ststem in garch)
     //
@@ -36,7 +35,7 @@ int main(int argc, char* argv[]) {
     Vector2 dir = Vector2(1, 1);
 
     //Keep speed the same for all fps
-    float speed = 1 * Game::instnace()->getTargetFrameLengthMS();
+    float speed = 100 * Game::instnace()->getDeltaTime();
 
     //Get array of keys and their state
     const bool* keys = SDL_GetKeyboardState(nullptr);
@@ -101,7 +100,7 @@ int main(int argc, char* argv[]) {
         Game::instnace()->getGraphicsSystem()->flip();
 
         //Sleep until end of frame length
-        timer.sleepUnitlElapsed(Game::instnace()->getTargetFrameLengthMS());
+        timer.sleepUnitlElapsed(Game::instnace()->getFrameLengthMS());
         Debug::log(BLUE, "[TIME]") << timer.getElapsedTime();
     }
 
