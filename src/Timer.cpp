@@ -28,6 +28,13 @@ void Timer::sleepUnitlElapsed(double ms)
 	std::this_thread::sleep_until(endTime);
 
 	//Get the time elapsed
-	auto currentTime = std::chrono::steady_clock::now();
 	mTimeElapsed = std::chrono::duration<double, std::milli>(endTime - mStartTime).count();
+}
+double Timer::getElapsedTime()
+{
+	//Get the time elapsed
+	auto currentTime = std::chrono::steady_clock::now();
+	mTimeElapsed = std::chrono::duration<double, std::milli>(currentTime - mStartTime).count();
+
+	return mTimeElapsed;
 }

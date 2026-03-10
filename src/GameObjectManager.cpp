@@ -3,9 +3,10 @@
 /*
 Initalize the Manger
 */
-void GameObjectManager::init()
+bool GameObjectManager::init()
 {
-	
+	Debug::log(DebugColor::CYAN, "[INIT]") << "Game Object Manager Inititialized";
+	return true;
 }
 /*
 Destroys the Manger

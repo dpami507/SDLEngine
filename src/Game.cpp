@@ -36,8 +36,15 @@ bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& g
     //Create manager
     mGameObjectManager = new GameObjectManager();
     mGraphicsSystem = new GraphicsSystem();
+    mSoundManager = new SoundManager();
 
-    bool init = mGraphicsSystem->init(width, height);
+    //Create Timer
+    mGameTimer = new Timer();
+
+    bool init = true;
+    init &= mGraphicsSystem->init(width, height);
+    init &= mGameObjectManager->init();
+    init &= mSoundManager->init();
 
     if (init == true)
     {
@@ -52,6 +59,9 @@ bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& g
         Debug::error() << "Game Initialization Failed";
         return false;
     }
+
+    //Start Timer after init is finished
+    mGameTimer->start();
 }
 
 //Cleanup managers and Game
@@ -63,6 +73,12 @@ void Game::cleanup()
 
     delete mGraphicsSystem;
     mGraphicsSystem = nullptr;
+
+    delete mSoundManager;
+    mSoundManager = nullptr;
+
+    delete mGameTimer;
+    mGameTimer = nullptr;
 }
 
 void Game::setFPS(uint32_t FPS)

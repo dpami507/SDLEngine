@@ -26,6 +26,9 @@ int main(int argc, char* argv[]) {
     //Create Timer
     Timer timer;
 
+    //Load sounds
+    Game::instnace()->getSoundManager()->loadClip("explosion", "resources/explosion.wav");
+
     //Create player
     Sprite* sprite = new Sprite("resources/dvd.png", 125, 58);
     GameObject* player = Game::instnace()->getGameObjectManager()->instantiate();
@@ -72,21 +75,25 @@ int main(int argc, char* argv[]) {
         {
             dir.y = -1;
             player->sprite()->setColor(Color::getRandColor());
+            Game::instnace()->getSoundManager()->playClip("explosion");
         }
         if (player->transform.position.x > SCREEN_WIDTH - player->sprite()->width())
         {
             dir.x = -1;
             player->sprite()->setColor(Color::getRandColor());
+            Game::instnace()->getSoundManager()->playClip("explosion");
         }
         if (player->transform.position.y < 0)
         {
             dir.y = 1;
             player->sprite()->setColor(Color::getRandColor());
+            Game::instnace()->getSoundManager()->playClip("explosion");
         }
         if (player->transform.position.x < 0)
         {
             dir.x = 1;
             player->sprite()->setColor(Color::getRandColor());
+            Game::instnace()->getSoundManager()->playClip("explosion");
         }
 
         //take the normalized direction and multiply it by the speed

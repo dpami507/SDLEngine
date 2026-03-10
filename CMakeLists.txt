@@ -4,7 +4,7 @@ project ("SDLProject")
 # =================================================
 # DOWNLOAD DEPENDENCIES
 # =================================================
-#Add SDL
+#Add SDL3
 message("Downloading SDL3... Do not stop the process, it may take a while...")
 include(FetchContent)
 FetchContent_Declare(
@@ -14,6 +14,17 @@ FetchContent_Declare(
     GIT_SHALLOW ON
 )
 FetchContent_MakeAvailable(SDL3)
+
+#Add SDL3_mixer
+message("Downloading SDL_mixer 3... Do not stop the process, it may take a while...")
+include(FetchContent)
+FetchContent_Declare(
+    SDL3_mixer
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+    GIT_TAG release-3.2.0
+    GIT_SHALLOW ON
+)
+FetchContent_MakeAvailable(SDL3_mixer)
 
 # Add standalone Asio
 message("Downloading Asio... Do not stop the process, it may take a while...")
@@ -30,7 +41,7 @@ FetchContent_MakeAvailable(asio)
 # =================================================
 
 # Add source to this project's executable.
-add_executable (SDLProject "main.cpp" "src/Vector2.cpp" "src/Vector2.h" "src/GameObject.cpp" "src/GameObject.h" "src/Sprite.cpp" "src/Sprite.h" "src/Game.cpp" "src/Game.h" "src/MemoryTracker.cpp" "src/Tracked.h" "src/Tracked.cpp" "src/GameObjectManager.h" "src/GameObjectManager.cpp" "src/Debug.cpp" "src/Debug.h" "src/GraphicsSystem.h" "src/GraphicsSystem.cpp" "src/Color.h" "src/Color.cpp" "src/Timer.h" "src/Timer.cpp")
+add_executable (SDLProject "main.cpp" "src/Vector2.cpp" "src/Vector2.h" "src/GameObject.cpp" "src/GameObject.h" "src/Sprite.cpp" "src/Sprite.h" "src/Game.cpp" "src/Game.h" "src/MemoryTracker.cpp" "src/Tracked.h" "src/Tracked.cpp" "src/GameObjectManager.h" "src/GameObjectManager.cpp" "src/Debug.cpp" "src/Debug.h" "src/GraphicsSystem.h" "src/GraphicsSystem.cpp" "src/Color.h" "src/Color.cpp" "src/Timer.h" "src/Timer.cpp" "src/SoundManager.h" "src/SoundManager.cpp")
 
 # Interface library
 add_library(asio INTERFACE)
@@ -40,9 +51,16 @@ target_link_libraries(asio INTERFACE Threads::Threads)
 
 # Link SDL3 library and asio
 target_link_libraries(SDLProject PRIVATE SDL3::SDL3)
+target_link_libraries(SDLProject PRIVATE SDL3_mixer::SDL3_mixer)
 target_link_libraries(SDLProject PUBLIC asio)
 
 # Show SDL3.dll file so CMake can like work lol
+add_custom_command(TARGET SDLProject POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    $<TARGET_FILE:SDL3_mixer::SDL3_mixer>
+    $<TARGET_FILE_DIR:SDLProject>
+)
+# Show SDL3_mixer.dll file so CMake can like work lol
 add_custom_command(TARGET SDLProject POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     $<TARGET_FILE:SDL3::SDL3>

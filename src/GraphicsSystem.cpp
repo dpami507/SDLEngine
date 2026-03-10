@@ -39,6 +39,8 @@ bool GraphicsSystem::init(const uint32_t width, const uint32_t height)
 		return false;
 	}
 
+	Debug::log(DebugColor::CYAN, "[INIT]") << "Graphics System Inititialized";
+
 	return true;
 }
 //Cleanup renderer and window

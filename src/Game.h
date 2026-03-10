@@ -4,6 +4,8 @@
 #include "Tracked.h"
 #include "GameObjectManager.h"
 #include "GraphicsSystem.h"
+#include "SoundManager.h"
+#include "Timer.h"
 
 static class Game : public Tracked
 {
@@ -19,11 +21,13 @@ public:
 	//Getters
 	GameObjectManager* getGameObjectManager() { return mGameObjectManager; }
 	GraphicsSystem* getGraphicsSystem() { return mGraphicsSystem; }
+	SoundManager* getSoundManager() { return mSoundManager; }
 
 	uint32_t getFPS() { return mFPS; }
 	void setFPS(uint32_t FPS);
 	double getFrameLengthMS() { return mTargetFrameLengthMS; }
 	double getDeltaTime() { return mDeltaTime; }
+	double getElapsedTime() { return mGameTimer->getElapsedTime(); }
 
 	bool running() const { return mRunning; }
 
@@ -40,6 +44,7 @@ private:
 	//Managers
 	GameObjectManager* mGameObjectManager;
 	GraphicsSystem* mGraphicsSystem;
+	SoundManager* mSoundManager;
 
 	//Game FPS
 	uint32_t mFPS;
@@ -47,6 +52,9 @@ private:
 	double mTargetFrameLengthMS;
 	//Delta Time
 	double mDeltaTime;
+	//Time
+	Timer* mGameTimer;
+
 	//Is the game running?
 	bool mRunning;
 };

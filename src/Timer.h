@@ -1,3 +1,4 @@
+#pragma once
 #include <SDL3/SDL_timer.h>
 #include <thread>
 #include <chrono>
@@ -13,8 +14,7 @@ public:
 
 	void start();
 	void sleepUnitlElapsed(double ms);
-
-	double getElapsedTime() { return mTimeElapsed; }
+	double getElapsedTime();
 
 private:
 	double mTimeElapsed;

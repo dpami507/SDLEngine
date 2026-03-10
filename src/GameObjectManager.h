@@ -15,7 +15,7 @@ public:
 	~GameObjectManager();
 
 	//Manager functions
-	void init();
+	bool init();
 	void cleanup();
 
 	//Obj creation/deletion
