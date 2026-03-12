@@ -85,7 +85,12 @@ void Game::setFPS(uint32_t FPS)
 {
     mFPS = FPS;
     mTargetFrameLengthMS = 1000.0 / FPS;
-    mDeltaTime = 1.0 / FPS;
+}
+void Game::updateDeltaTime()
+{
+    double now = mGameTimer->getElapsedTime();
+    mDeltaTime = (now - mLastFrameTime) / 1000.0;
+    mLastFrameTime = now;
 }
 
 Game::Game()

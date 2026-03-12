@@ -10,8 +10,13 @@
 struct AudioClip : public Tracked
 {
 	MIX_Audio* audio;
-	double vol;
-	double pitch;
+
+	//Destroy audio
+	~AudioClip()
+	{
+		MIX_DestroyAudio(audio);
+		audio = nullptr;
+	}
 };
 
 class SoundManager : public Tracked
@@ -24,12 +29,9 @@ public:
 	void cleanup();
 
 	bool loadClip(const std::string key, const std::string filename);
-	bool playClip(const std::string key);
-	void cleanupTracks();
-	void purgeTracks();
+	bool playClip(std::string key);
 
 private:
 	MIX_Mixer* mMixer;
-	std::vector<MIX_Track*> mActiveTracks;
 	std::unordered_map<std::string, AudioClip*> mAudioClips;
 };

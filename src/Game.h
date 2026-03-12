@@ -15,21 +15,23 @@ public:
 	static Game* instnace();
 	static void removeInstance();
 
-	//Setters
-	void stop() { mRunning = false; }
-
 	//Getters
 	GameObjectManager* getGameObjectManager() { return mGameObjectManager; }
 	GraphicsSystem* getGraphicsSystem() { return mGraphicsSystem; }
 	SoundManager* getSoundManager() { return mSoundManager; }
 
-	uint32_t getFPS() { return mFPS; }
+	//Set time variables
 	void setFPS(uint32_t FPS);
+	void updateDeltaTime();
+
+	//Get time variables
+	uint32_t getFPS() { return mFPS; }
 	double getFrameLengthMS() { return mTargetFrameLengthMS; }
 	double getDeltaTime() { return mDeltaTime; }
 	double getElapsedTime() { return mGameTimer->getElapsedTime(); }
 
 	bool running() const { return mRunning; }
+	void stop() { mRunning = false; }
 
 	bool init(const uint32_t& width = 800, const uint32_t& height = 600, const uint32_t& gameFPS = 60);
 	void cleanup();
@@ -42,19 +44,22 @@ private:
 	static Game* mpsInstance;
 
 	//Managers
-	GameObjectManager* mGameObjectManager;
-	GraphicsSystem* mGraphicsSystem;
-	SoundManager* mSoundManager;
+	GameObjectManager* mGameObjectManager = nullptr;
+	GraphicsSystem* mGraphicsSystem = nullptr;
+	SoundManager* mSoundManager = nullptr;
 
 	//Game FPS
-	uint32_t mFPS;
+	uint32_t mFPS = 30;
 	//Frame length in miliseconds
-	double mTargetFrameLengthMS;
-	//Delta Time
-	double mDeltaTime;
+	double mTargetFrameLengthMS = 0;
+
 	//Time
-	Timer* mGameTimer;
+	Timer* mGameTimer = nullptr;
+
+	//Delta Time
+	double mDeltaTime = 0;
+	double mLastFrameTime = 0;
 
 	//Is the game running?
-	bool mRunning;
+	bool mRunning = false;
 };

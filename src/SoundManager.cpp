@@ -40,13 +40,9 @@ void SoundManager::cleanup()
 	//Destroy all clips
 	for (auto c : mAudioClips)
 	{
-		MIX_DestroyAudio(c.second->audio);
 		delete c.second;
 	}
 	mAudioClips.clear();
-
-	//Cleanup tracks
-	purgeTracks();
 
 	//Destroy the mixer
 	MIX_DestroyMixer(mMixer);
@@ -79,11 +75,8 @@ bool SoundManager::loadClip(const std::string key, const std::string filename)
 }
 
 //Play clip from loaded clip
-bool SoundManager::playClip(const std::string key)
+bool SoundManager::playClip(std::string key)
 {
-	//Cleanup any tracks
-	cleanupTracks();
-
 	//Make sure it exists
 	auto it = mAudioClips.find(key);
 	if (it == mAudioClips.end()) {
@@ -91,41 +84,9 @@ bool SoundManager::playClip(const std::string key)
 		return false;
 	}
 
-	//Get the clip
-	AudioClip clip = *mAudioClips.at(key);
-
-	//Create the track and add it to the vecotr
-	MIX_Track* track = MIX_CreateTrack(mMixer);
-	mActiveTracks.push_back(track);
-
-	//Set up audio
-	MIX_SetTrackAudio(track, clip.audio);
-
-	//Play audio
-	MIX_PlayTrack(track, 1);
+	//Play it
+	MIX_PlayAudio(mMixer, mAudioClips.at(key)->audio);
 
 	return true;
-}
-
-void SoundManager::cleanupTracks()
-{
-	mActiveTracks.erase(
-		std::remove_if(mActiveTracks.begin(), mActiveTracks.end(),
-		[](MIX_Track* track) {
-			if (!MIX_TrackPlaying(track))
-			{
-				MIX_DestroyTrack(track);
-				return true;
-			}
-			return false;
-		}),
-		mActiveTracks.end()
-	);
-}
-void SoundManager::purgeTracks()
-{
-	//delete all and set null
-	for (auto t : mActiveTracks)
-		MIX_DestroyTrack(t);
 }
 

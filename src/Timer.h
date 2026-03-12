@@ -1,7 +1,5 @@
 #pragma once
 #include <SDL3/SDL_timer.h>
-#include <thread>
-#include <chrono>
 
 #include "Tracked.h"
 #include "Debug.h"
@@ -17,6 +15,6 @@ public:
 	double getElapsedTime();
 
 private:
-	double mTimeElapsed;
-	std::chrono::steady_clock::time_point mStartTime;
+	UINT64 mStartTime; //Start time
+	const float PERFORMANCE_FREQ = SDL_GetPerformanceFrequency();
 };

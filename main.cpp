@@ -24,10 +24,10 @@ int main(int argc, char* argv[]) {
     Game::instnace()->init(SCREEN_WIDTH, SCREEN_HEIGHT, 60);
 
     //Create Timer
-    Timer timer;
+    Timer frameTimer;
 
     //Load sounds
-    Game::instnace()->getSoundManager()->loadClip("explosion", "resources/explosion.wav");
+    Game::instnace()->getSoundManager()->loadClip("explosion", "resources/boom_x.wav");
 
     //Create player
     Sprite* sprite = new Sprite("resources/dvd.png", 125, 58);
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     Vector2 dir = Vector2(1, 1);
 
     //Keep speed the same for all fps
-    float speed = 100 * Game::instnace()->getDeltaTime();
+    double speed = 450.0;
 
     //Get array of keys and their state
     const bool* keys = SDL_GetKeyboardState(nullptr);
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
         SDL_Event event;
 
         //Start timer
-        timer.start();
+        frameTimer.start();
 
         //Clear the screen to a color
         Game::instnace()->getGraphicsSystem()->clearToColor({0, 0, 0, 255});
@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
         }
 
         //take the normalized direction and multiply it by the speed
-        player->transform.position += dir.normalized() * speed;
+        player->transform.position += dir.normalized() * speed * Game::instnace()->getDeltaTime();
 
         //Update then draw player
         player->update();
@@ -107,8 +107,10 @@ int main(int argc, char* argv[]) {
         Game::instnace()->getGraphicsSystem()->flip();
 
         //Sleep until end of frame length
-        timer.sleepUnitlElapsed(Game::instnace()->getFrameLengthMS());
-        Debug::log(BLUE, "[TIME]") << timer.getElapsedTime();
+        frameTimer.sleepUnitlElapsed(Game::instnace()->getFrameLengthMS());
+
+        //Set deltaTime
+        Game::instnace()->updateDeltaTime();
     }
 
     //Cleanup

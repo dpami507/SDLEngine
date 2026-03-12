@@ -2,8 +2,7 @@
 
 Timer::Timer()
 {
-	mTimeElapsed = 0;
-	mStartTime = std::chrono::steady_clock::now();
+	start();
 }
 
 Timer::~Timer()
@@ -12,29 +11,22 @@ Timer::~Timer()
 
 void Timer::start()
 {
-	//Reset variables
-	mTimeElapsed = 0;
-	mStartTime = std::chrono::steady_clock::now(); // Get current time
+	mStartTime = SDL_GetPerformanceCounter();
 }
+
 void Timer::sleepUnitlElapsed(double ms)
-{
-	//Get milliseconds as a duration 
-	std::chrono::duration<double, std::milli> msAsDuration = (std::chrono::duration<double, std::milli>)ms;
-	
-	//Get the endtime 
-	auto endTime = mStartTime + msAsDuration;
+{	
+	//Get time to sleep
+	double timeToSleep = (ms - getElapsedTime());
 
 	//Sleep until the endtime
-	std::this_thread::sleep_until(endTime);
-
-	//Get the time elapsed
-	mTimeElapsed = std::chrono::duration<double, std::milli>(endTime - mStartTime).count();
+	if (timeToSleep > 0)
+		SDL_Delay(timeToSleep);
 }
 double Timer::getElapsedTime()
 {
-	//Get the time elapsed
-	auto currentTime = std::chrono::steady_clock::now();
-	mTimeElapsed = std::chrono::duration<double, std::milli>(currentTime - mStartTime).count();
-
-	return mTimeElapsed;
+	//Get the current time
+	double now = SDL_GetPerformanceCounter();
+	//Get the time elapsed in ms
+	return (now - mStartTime) / PERFORMANCE_FREQ * 1000.0f;
 }
