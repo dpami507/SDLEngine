@@ -6,6 +6,7 @@
 #include "Debug.h"
 
 class GameObject;
+class MemoryManager;
 
 class GameObjectManager : public Tracked
 {
@@ -15,7 +16,7 @@ public:
 	~GameObjectManager();
 
 	//Manager functions
-	bool init();
+	bool init(MemoryManager* pMemoryManager);
 	void cleanup();
 
 	//Obj creation/deletion
@@ -25,4 +26,5 @@ public:
 
 private:
 	std::vector<GameObject*> mGameObjects;
+	MemoryManager* mMemoryManager = nullptr;
 };

@@ -1,10 +1,13 @@
 #include "GameObjectManager.h"
+#include "MemoryManager.h"
 
 /*
 Initalize the Manger
 */
-bool GameObjectManager::init()
+bool GameObjectManager::init(MemoryManager* pMemoryManager)
 {
+	mMemoryManager = pMemoryManager;
+
 	engine::Debug::log(engine::DBG_BLUE, "[INIT]") << "Game Object Manager Inititialized";
 	return true;
 }
@@ -24,7 +27,10 @@ Create a GameObject*
 GameObject* GameObjectManager::instantiate()
 {
 	//Creating new obj
-	GameObject* newGameObj = new GameObject();
+	Byte* allocByte = mMemoryManager->allocate(sizeof(GameObject));
+	if (allocByte == nullptr) return nullptr;
+
+	GameObject* newGameObj = new (allocByte) GameObject();
 	
 	//Add to vector
 	mGameObjects.push_back(newGameObj);
@@ -48,6 +54,7 @@ bool GameObjectManager::destroy(GameObject* gObj)
 	}
 
 	//Destroy
+	mMemoryManager->deallocate((Byte*)gObj);
 	mGameObjects.erase(it);
 	return true;
 }
@@ -58,12 +65,13 @@ void GameObjectManager::purge()
 {
 	//Make sure there are things to delete
 	if (mGameObjects.size() <= 0)
-		engine::Debug::error() << "Nothing to purge";
+		engine::Debug::error() << "Game Object Manager: Nothing to purge";
 
 	//Delete all objects
 	for (GameObject* gObj : mGameObjects)
 	{
-		delete gObj;
+		mMemoryManager->deallocate((Byte*)gObj);
+		//delete gObj;
 	}
 	//Clear the list
 	mGameObjects.clear();

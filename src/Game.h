@@ -21,6 +21,7 @@ public:
 	inline GameObjectManager* getGameObjectManager() const { return mGameObjectManager; }
 	inline GraphicsSystem* getGraphicsSystem() const { return mGraphicsSystem; }
 	inline SoundManager* getSoundManager() const { return mSoundManager; }
+	inline MemoryManager* getMemoryManager() const { return mMemoryManager; }
 
 	//time variables
 	void setFPS(uint32_t FPS);

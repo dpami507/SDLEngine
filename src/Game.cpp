@@ -5,6 +5,9 @@
 
 Game* Game::mpsInstance = nullptr;
 
+const uint8_t GAME_OBJECT_SIZE = sizeof(GameObject);
+const uint16_t MAX_GAME_OBJECT_COUNT = 16;
+
 //Create static instance
 Game* Game::createInstance()
 {
@@ -44,9 +47,9 @@ bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& g
 
     bool init = true;
     init &= mGraphicsSystem->init(width, height);
-    init &= mGameObjectManager->init();
+    init &= mGameObjectManager->init(mMemoryManager);
     init &= mSoundManager->init();
-    init &= mMemoryManager->init({ 32 }, { 1 });
+    init &= mMemoryManager->init({ GAME_OBJECT_SIZE }, { MAX_GAME_OBJECT_COUNT });
 
     if (init == true)
     {
@@ -83,11 +86,11 @@ void Game::cleanup()
 void Game::doLoop()
 {
     //Load sounds
-    Game::instnace()->getSoundManager()->loadClip("explosion", "resources/boom_x.wav");
+    mSoundManager->loadClip("explosion", "resources/boom_x.wav");
 
     //Create player
     Sprite* sprite = new Sprite("resources/dvd.png", 125, 58);
-    GameObject* player = Game::instnace()->getGameObjectManager()->instantiate();
+    GameObject* player = mGameObjectManager->instantiate();
     player->setSprite(sprite);
 
     //Square variables
@@ -106,7 +109,7 @@ void Game::doLoop()
     DeltaTime deltaTime;
 
     deltaTime.start();
-    while (Game::instnace()->running()) {
+    while (mRunning) {
         SDL_Event event;
 
         //Start timer
@@ -114,7 +117,7 @@ void Game::doLoop()
         deltaTime.update();
 
         //Clear the screen to a color
-        Game::instnace()->getGraphicsSystem()->clearToColor({ 0, 0, 0, 255 });
+        mGraphicsSystem->clearToColor({ 0, 0, 0, 255 });
 
         //Wait for events
         while (SDL_PollEvent(&event))
@@ -122,7 +125,7 @@ void Game::doLoop()
             if (event.type == SDL_EVENT_QUIT)
             {
                 engine::Debug::warning() << "Quiting...";
-                Game::instnace()->stop();
+                stop();
             }
             //Debug which key was pressed down
             else if (event.type == SDL_EVENT_KEY_DOWN)
@@ -132,32 +135,32 @@ void Game::doLoop()
         }
         //Stop if we hit the escape button
         if (keys[SDL_SCANCODE_ESCAPE])
-            Game::instnace()->stop();
+            stop();
 
         //Change direction if we hit a wall
         if (player->transform.position.y > mGraphicsSystem->getWindowHeight() - player->sprite()->height())
         {
             dir.y = -1;
             player->sprite()->setColor(Color::getRandColor());
-            Game::instnace()->getSoundManager()->playClip("explosion");
+            mSoundManager->playClip("explosion");
         }
         if (player->transform.position.x > mGraphicsSystem->getWindowWidth() - player->sprite()->width())
         {
             dir.x = -1;
             player->sprite()->setColor(Color::getRandColor());
-            Game::instnace()->getSoundManager()->playClip("explosion");
+            mSoundManager->playClip("explosion");
         }
         if (player->transform.position.y < 0)
         {
             dir.y = 1;
             player->sprite()->setColor(Color::getRandColor());
-            Game::instnace()->getSoundManager()->playClip("explosion");
+            mSoundManager->playClip("explosion");
         }
         if (player->transform.position.x < 0)
         {
             dir.x = 1;
             player->sprite()->setColor(Color::getRandColor());
-            Game::instnace()->getSoundManager()->playClip("explosion");
+            mSoundManager->playClip("explosion");
         }
 
         //take the normalized direction and multiply it by the speed
@@ -168,11 +171,13 @@ void Game::doLoop()
         player->draw();
 
         //flip
-        Game::instnace()->getGraphicsSystem()->flip();
+        mGraphicsSystem->flip();
 
         //Sleep until end of frame length
-        frameTimer.sleepUntilElapsed(Game::instnace()->getFrameLengthMS());
+        frameTimer.sleepUntilElapsed(mTargetFrameLengthMS);
     }
+
+    delete sprite;
 }
 
 void Game::setFPS(uint32_t FPS)
