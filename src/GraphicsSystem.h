@@ -17,6 +17,9 @@ public:
 	SDL_Window* getWindow() { return mWindow; }
 	SDL_Renderer* getRenderer() { return mRenderer; }
 
+	inline uint32_t getWindowHeight() { return mScreenHeight; };
+	inline uint32_t getWindowWidth() { return mScreenWidth; };
+
 	void clearToColor(Color color);
 	void flip();
 

@@ -14,7 +14,7 @@ public:
     MemoryManager() {};
     ~MemoryManager() { cleanup(); };
 
-    void init(const std::vector<unsigned int>& sizes,
+    bool init(const std::vector<unsigned int>& sizes,
         const std::vector<unsigned int>& numSlots);
     void cleanup();
     void reset();

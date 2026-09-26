@@ -1,6 +1,8 @@
 #include "MemoryManager.h"
 
-void MemoryManager::init(const std::vector<unsigned int>& sizes, const std::vector<unsigned int>& numSlots)
+#include "Debug.h"
+
+bool MemoryManager::init(const std::vector<unsigned int>& sizes, const std::vector<unsigned int>& numSlots)
 {
     if (sizes.size() == numSlots.size())
     {
@@ -10,6 +12,12 @@ void MemoryManager::init(const std::vector<unsigned int>& sizes, const std::vect
             mPools.push_back(new MemoryPool(numSlots[i], sizes[i]));
         }
     }
+    else
+    {
+        engine::Debug::error() << "Memory Manager: sizes array length is not equal to slots array size";
+        return false;
+    }
+    return true;
 }
 
 void MemoryManager::cleanup()

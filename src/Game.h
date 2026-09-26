@@ -1,11 +1,13 @@
 #pragma once
+#include "Tracked.h"
+
 #include <iostream>
 
-#include "Tracked.h"
-#include "GameObjectManager.h"
 #include "GraphicsSystem.h"
+
+#include "GameObjectManager.h"
 #include "SoundManager.h"
-#include "Timer.h"
+#include "MemoryManager.h"
 
 static class Game : public Tracked
 {
@@ -16,22 +18,19 @@ public:
 	static void removeInstance();
 
 	//Getters
-	GameObjectManager* getGameObjectManager() { return mGameObjectManager; }
-	GraphicsSystem* getGraphicsSystem() { return mGraphicsSystem; }
-	SoundManager* getSoundManager() { return mSoundManager; }
+	inline GameObjectManager* getGameObjectManager() const { return mGameObjectManager; }
+	inline GraphicsSystem* getGraphicsSystem() const { return mGraphicsSystem; }
+	inline SoundManager* getSoundManager() const { return mSoundManager; }
 
-	//Set time variables
+	//time variables
 	void setFPS(uint32_t FPS);
-	void updateDeltaTime();
+	inline uint32_t getFPS() const { return mFPS; }
+	inline double getFrameLengthMS() const { return mTargetFrameLengthMS; }
 
-	//Get time variables
-	uint32_t getFPS() { return mFPS; }
-	double getFrameLengthMS() { return mTargetFrameLengthMS; }
-	double getDeltaTime() { return mDeltaTime; }
-	double getElapsedTime() { return mGameTimer->getElapsedTime(); }
-
-	bool running() const { return mRunning; }
-	void stop() { mRunning = false; }
+	// Game state 
+	inline bool running() const { return mRunning; }
+	inline void stop() { mRunning = false; }
+	void doLoop();
 
 	bool init(const uint32_t& width = 800, const uint32_t& height = 600, const uint32_t& gameFPS = 60);
 	void cleanup();
@@ -47,18 +46,12 @@ private:
 	GameObjectManager* mGameObjectManager = nullptr;
 	GraphicsSystem* mGraphicsSystem = nullptr;
 	SoundManager* mSoundManager = nullptr;
+	MemoryManager* mMemoryManager = nullptr;
 
 	//Game FPS
 	uint32_t mFPS = 30;
 	//Frame length in miliseconds
 	double mTargetFrameLengthMS = 0;
-
-	//Time
-	Timer* mGameTimer = nullptr;
-
-	//Delta Time
-	double mDeltaTime = 0;
-	double mLastFrameTime = 0;
 
 	//Is the game running?
 	bool mRunning = false;
