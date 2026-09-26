@@ -5,7 +5,7 @@ Initalize the Manger
 */
 bool GameObjectManager::init()
 {
-	Debug::log(DebugColor::CYAN, "[INIT]") << "Game Object Manager Inititialized";
+	engine::Debug::log(engine::DBG_BLUE, "[INIT]") << "Game Object Manager Inititialized";
 	return true;
 }
 /*
@@ -43,7 +43,7 @@ bool GameObjectManager::destroy(GameObject* gObj)
 	auto it = std::find(mGameObjects.begin(), mGameObjects.end(), gObj);
 	if (it == mGameObjects.end())
 	{
-		Debug::error() << "Game object doesn't exist";
+		engine::Debug::error() << "Game object doesn't exist";
 		return false;
 	}
 
@@ -58,7 +58,7 @@ void GameObjectManager::purge()
 {
 	//Make sure there are things to delete
 	if (mGameObjects.size() <= 0)
-		Debug::error() << "Nothing to purge";
+		engine::Debug::error() << "Nothing to purge";
 
 	//Delete all objects
 	for (GameObject* gObj : mGameObjects)

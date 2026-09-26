@@ -8,6 +8,7 @@
 #include "src/GameObject.h"
 #include "src/MemoryTracker.h"
 #include "src/Timer.h"
+#include "src/Debug.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -57,13 +58,13 @@ int main(int argc, char* argv[]) {
         {
             if (event.type == SDL_EVENT_QUIT)
             {
-                Debug::warning() << "Quiting...";
+                engine::Debug::warning() << "Quiting...";
                 Game::instnace()->stop();
             }
             //Debug which key was pressed down
             else if (event.type == SDL_EVENT_KEY_DOWN)
             {
-                Debug::log() << "a key was pressed: " << event.key.key;
+                engine::Debug::log() << "a key was pressed: " << event.key.key;
             }
         }
         //Stop if we hit the escape button

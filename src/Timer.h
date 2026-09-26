@@ -15,6 +15,6 @@ public:
 	double getElapsedTime();
 
 private:
-	UINT64 mStartTime; //Start time
+	uint64_t mStartTime; //Start time
 	const float PERFORMANCE_FREQ = SDL_GetPerformanceFrequency();
 };

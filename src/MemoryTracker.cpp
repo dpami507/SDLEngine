@@ -63,7 +63,7 @@ void MemoryTracker::printAllocations()
 	//Go through all and print allocations
 	for (const auto& a : mAllocations)
 	{
-		Debug::warning() << "Allocation #" << a.second.num << ", found at: " << a.first << " size: " << a.second.size;
+		engine::Debug::warning() << "Allocation #" << a.second.num << ", found at: " << a.first << " size: " << a.second.size;
 		totalBytes += a.second.size;
 	}
 

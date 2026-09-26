@@ -28,7 +28,7 @@ void Game::removeInstance()
 //Initialize the Game
 bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& gameFPS)
 {
-    Debug::log(YELLOW) << "Initializing Game";
+    engine::Debug::warning() << "Initializing Game";
 
     //Set game variables
     setFPS(gameFPS);
@@ -50,13 +50,13 @@ bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& g
     {
         //It worked!
         mRunning = true;
-        Debug::log(GREEN) << "Game Initialized";
+        engine::Debug::success() << "Game Initialized";
         return true;
     }
     else
     {
         mRunning = false;
-        Debug::error() << "Game Initialization Failed";
+        engine::Debug::error() << "Game Initialization Failed";
         return false;
     }
 
