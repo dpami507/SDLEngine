@@ -20,7 +20,7 @@ public:
 	inline uint32_t getWindowHeight() { return mScreenHeight; };
 	inline uint32_t getWindowWidth() { return mScreenWidth; };
 
-	void clearToColor(Color color);
+	void clearToColor(const Color& color);
 	void flip();
 
 private:

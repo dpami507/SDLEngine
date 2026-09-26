@@ -7,13 +7,13 @@
 class Vector2 : public Tracked
 {
 public:
-    static Vector2 zero() { return Vector2(0, 0); }
-    static Vector2 one() { return Vector2(1, 1); }
+    static inline Vector2 zero() { return Vector2(0, 0); }
+    static inline Vector2 one() { return Vector2(1, 1); }
 
-    static Vector2 up() { return Vector2(0, 1); }
-    static Vector2 down() { return Vector2(0, -1); }
-    static Vector2 right() { return Vector2(1, 0); }
-    static Vector2 left() { return Vector2(-1, 0); }
+    static inline Vector2 up() { return Vector2(0, 1); }
+    static inline Vector2 down() { return Vector2(0, -1); }
+    static inline Vector2 right() { return Vector2(1, 0); }
+    static inline Vector2 left() { return Vector2(-1, 0); }
 
     Vector2(double x = 0, double y = 0) : x(x), y(y) {}
 

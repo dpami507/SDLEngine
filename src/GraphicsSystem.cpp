@@ -55,7 +55,7 @@ void GraphicsSystem::cleanup()
 *Clear the renderer to a color
 @param Color to set screen to
 */ 
-void GraphicsSystem::clearToColor(Color color)
+void GraphicsSystem::clearToColor(const Color& color)
 {
 	//Set color to draw
 	SDL_SetRenderDrawColor(mRenderer, color.getRed(), color.getBlue(), color.getGreen(), color.getAlpha());

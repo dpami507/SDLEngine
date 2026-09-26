@@ -51,7 +51,7 @@ void SoundManager::cleanup()
 }
 
 //Load clip to the manager
-bool SoundManager::loadClip(const std::string key, const std::string filename)
+bool SoundManager::loadClip(const std::string& key, const std::string& filename)
 {
 	//Make sure it doesnt exits
 	auto it = mAudioClips.find(key);
@@ -75,7 +75,7 @@ bool SoundManager::loadClip(const std::string key, const std::string filename)
 }
 
 //Play clip from loaded clip
-bool SoundManager::playClip(std::string key)
+bool SoundManager::playClip(const std::string& key)
 {
 	//Make sure it exists
 	auto it = mAudioClips.find(key);

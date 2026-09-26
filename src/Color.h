@@ -13,10 +13,10 @@ public:
 	~Color();
 
 	//Getters
-	int getRed() { return mRed; }
-	int getGreen() { return mGreen; }
-	int getBlue() { return mBlue; }
-	int getAlpha() { return mAlpha; }
+	inline int getRed() const { return mRed; }
+	inline int getGreen() const { return mGreen; }
+	inline int getBlue() const { return mBlue; }
+	inline int getAlpha()const { return mAlpha; }
 
 	//Setters
 	void setRed(int red);

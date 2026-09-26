@@ -28,8 +28,8 @@ public:
 	bool init();
 	void cleanup();
 
-	bool loadClip(const std::string key, const std::string filename);
-	bool playClip(std::string key);
+	bool loadClip(const std::string& key, const std::string& filename);
+	bool playClip(const std::string& key);
 
 private:
 	MIX_Mixer* mMixer;
