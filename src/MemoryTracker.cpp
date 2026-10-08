@@ -3,6 +3,8 @@
 int MemoryTracker::msAllocationNum = 0;
 MemoryTracker* MemoryTracker::mspInstance = nullptr;
 
+using namespace engine::debug;
+
 //Get instance
 MemoryTracker* MemoryTracker::instance()
 {
@@ -63,7 +65,7 @@ void MemoryTracker::printAllocations()
 	//Go through all and print allocations
 	for (const auto& a : mAllocations)
 	{
-		engine::Debug::warning() << "Allocation #" << a.second.num << ", found at: " << a.first << " size: " << a.second.size;
+		Debug::warning() << "Allocation #" << a.second.num << ", found at: " << a.first << " size: " << a.second.size;
 		totalBytes += a.second.size;
 	}
 

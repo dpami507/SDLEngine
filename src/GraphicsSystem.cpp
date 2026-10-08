@@ -1,5 +1,7 @@
 #include "GraphicsSystem.h"
 
+using namespace engine::debug;
+
 GraphicsSystem::GraphicsSystem()
 {
 }
@@ -21,25 +23,25 @@ bool GraphicsSystem::init(const uint32_t width, const uint32_t height)
 	//Initialize SDL Video
 	if (!SDL_Init(SDL_INIT_VIDEO))
 	{
-		engine::Debug::error() << "Could not initialize SDL3: " << SDL_GetError();
+		Debug::error() << "Could not initialize SDL3: " << SDL_GetError();
 		return false;
 	}
 	//Create Window
 	mWindow = SDL_CreateWindow("My SDL3 Window", mScreenWidth, mScreenHeight, SDL_WINDOW_RESIZABLE);
 	if (mWindow == NULL) {
 		// Window could not be made...
-		engine::Debug::error() << "Could not create window: " << SDL_GetError();
+		Debug::error() << "Could not create window: " << SDL_GetError();
 		return false;
 	}
 	//Create Renderer
 	mRenderer = SDL_CreateRenderer(mWindow, nullptr);
 	if (mRenderer == NULL) {
 		// Window could not be made...
-		engine::Debug::error() << "Could not create renderer: " << SDL_GetError();
+		Debug::error() << "Could not create renderer: " << SDL_GetError();
 		return false;
 	}
 
-	engine::Debug::log(engine::DBG_BLUE, "[INIT]") << "Graphics System Inititialized";
+	Debug::log(DBG_BLUE, "[INIT]") << "Graphics System Inititialized";
 
 	return true;
 }

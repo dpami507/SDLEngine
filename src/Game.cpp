@@ -11,6 +11,8 @@ const uint16_t MAX_GAME_OBJ_COUNT = 16;
 const uint8_t AUDIO_CLIP_SIZE = SoundManager::getAudioSizeof();
 const uint16_t MAX_AUDIO_CLIPS = 16;
 
+using namespace engine::debug;
+
 //Create static instance
 Game* Game::createInstance()
 {
@@ -37,7 +39,7 @@ void Game::removeInstance()
 //Initialize the Game
 bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& gameFPS)
 {
-    engine::Debug::warning() << "Initializing Game";
+    Debug::warning() << "Initializing Game";
 
     //Set game variables
     setFPS(gameFPS);
@@ -58,13 +60,13 @@ bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& g
     {
         //It worked!
         mRunning = true;
-        engine::Debug::success() << "Game Initialized";
+        Debug::success() << "Game Initialized";
         return true;
     }
     else
     {
         mRunning = false;
-        engine::Debug::error() << "Game Initialization Failed";
+        Debug::error() << "Game Initialization Failed";
         return false;
     }
 }
@@ -127,13 +129,13 @@ void Game::doLoop()
         {
             if (event.type == SDL_EVENT_QUIT)
             {
-                engine::Debug::warning() << "Quiting...";
+                Debug::warning() << "Quiting...";
                 stop();
             }
             //Debug which key was pressed down
             else if (event.type == SDL_EVENT_KEY_DOWN)
             {
-                engine::Debug::log() << "a key was pressed: " << event.key.key;
+                Debug::log() << "a key was pressed: " << event.key.key;
             }
         }
         //Stop if we hit the escape button

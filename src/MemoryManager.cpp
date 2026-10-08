@@ -2,6 +2,8 @@
 
 #include "Debug.h"
 
+using namespace engine::debug;
+
 bool MemoryManager::init(const std::vector<unsigned int>& sizes, const std::vector<unsigned int>& numSlots)
 {
     if (sizes.size() == numSlots.size())
@@ -14,7 +16,7 @@ bool MemoryManager::init(const std::vector<unsigned int>& sizes, const std::vect
     }
     else
     {
-        engine::Debug::error() << "Memory Manager: sizes array length is not equal to slots array size";
+        Debug::error() << "Memory Manager: sizes array length is not equal to slots array size";
         return false;
     }
     return true;
@@ -116,7 +118,7 @@ MemoryPool* MemoryManager::findBestPool(unsigned int size)
                 closestPool = p;
         }
     }
-    if (!closestPool) engine::Debug::error() << "Could not find available pool for sizeof: " << size << "\n";
+    if (!closestPool) Debug::error() << "Could not find available pool for sizeof: " << size << "\n";
 
     return closestPool;
 }
@@ -127,6 +129,6 @@ MemoryPool* MemoryManager::findPoolWithData(Byte* ptr)
         if (p->contains(ptr))
             return p;
     }
-    std::cout << "ERR// No pool found that contains: " << ptr << "\n";
+    Debug::error() << "No pool found that contains: " << ptr << "\n";
     return nullptr;
 }

@@ -3,6 +3,8 @@
 
 #include "MemoryManager.h"
 
+using namespace engine::debug;
+
 SoundManager::~SoundManager()
 {
     cleanup();
@@ -13,7 +15,7 @@ bool SoundManager::init(MemoryManager* memoryManager)
     // Init SDL Audio
     if (!SDL_Init(SDL_INIT_AUDIO))
     {
-        engine::Debug::error() << "SDL Audio could not be loaded!";
+        Debug::error() << "SDL Audio could not be loaded!";
         return false;
     }
 
@@ -30,19 +32,19 @@ bool SoundManager::init(MemoryManager* memoryManager)
         // Create the Audio Stream
         mStreams[i] = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, mSpec, NULL, NULL);
         if (!mStreams) {
-            engine::Debug::error() << "Couldn't create audio stream: " << SDL_GetError();
+            Debug::error() << "Couldn't create audio stream: " << SDL_GetError();
             return false;
         }
         // Unpause the stream
         SDL_ResumeAudioStreamDevice(mStreams[i]);
     }
 
-    engine::Debug::log(engine::DBG_BLUE, "[INIT]") << "Sound Manager Inititialized";
+    Debug::log(DBG_BLUE, "[INIT]") << "Sound Manager Inititialized";
     return true;
 }
 void SoundManager::cleanup()
 {
-    engine::Debug::log(engine::DBG_YELLOW, "[CLEANUP]") << "Cleaning up Sound Manager";
+    Debug::log(DBG_YELLOW, "[CLEANUP]") << "Cleaning up Sound Manager";
 
     // Cleanup loaded audio
     for (auto a : mLoadedAudio)
@@ -68,7 +70,7 @@ bool SoundManager::loadAudio(std::string key, std::string path)
     // Check for audio
     if (mLoadedAudio.find(key) != mLoadedAudio.end())
     {
-        engine::Debug::error() << "Key: " << key << " already exists!";
+        Debug::error() << "Key: " << key << " already exists!";
         return false;
     }
 
@@ -81,7 +83,7 @@ bool SoundManager::loadAudio(std::string key, std::string path)
     // Load the file
     if (!SDL_LoadWAV(path.c_str(), &newAudio->sSpec, &newAudio->sWavData, &newAudio->sLength))
     {
-        engine::Debug::error() << "Failed to load audio path: " << path << ": " << SDL_GetError();
+        Debug::error() << "Failed to load audio path: " << path << ": " << SDL_GetError();
         return false;
     }
 
@@ -95,7 +97,7 @@ bool SoundManager::playAudio(std::string key)
     auto it = mLoadedAudio.find(key);
     if (it == mLoadedAudio.end())
     {
-        engine::Debug::error() << "Key: " << key << " wasn't found!";
+        Debug::error() << "Key: " << key << " wasn't found!";
         return false;
     }
 
@@ -107,7 +109,7 @@ bool SoundManager::playAudio(std::string key)
     int convertedLength = 0;
     if (!SDL_ConvertAudioSamples(&audio->sSpec, audio->sWavData, audio->sLength, mSpec, &convertedBuffer, &convertedLength))
     {
-        engine::Debug::error() << "Audio conversion failed: " << SDL_GetError();
+        Debug::error() << "Audio conversion failed: " << SDL_GetError();
         return false;
     }
 
@@ -135,6 +137,6 @@ SDL_AudioStream* SoundManager::getAvailableStream()
         }
     }
 
-    engine::Debug::error() << "All audio streams are in use!";
+    Debug::error() << "All audio streams are in use!";
     return nullptr;
 }

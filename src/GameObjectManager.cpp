@@ -1,6 +1,8 @@
 #include "GameObjectManager.h"
 #include "MemoryManager.h"
 
+using namespace engine::debug;
+
 /*
 Initalize the Manger
 */
@@ -8,7 +10,7 @@ bool GameObjectManager::init(MemoryManager* pMemoryManager)
 {
 	mMemoryManager = pMemoryManager;
 
-	engine::Debug::log(engine::DBG_BLUE, "[INIT]") << "Game Object Manager Inititialized";
+	Debug::log(DBG_BLUE, "[INIT]") << "Game Object Manager Inititialized";
 	return true;
 }
 /*
@@ -49,7 +51,7 @@ bool GameObjectManager::destroy(GameObject* gObj)
 	auto it = std::find(mGameObjects.begin(), mGameObjects.end(), gObj);
 	if (it == mGameObjects.end())
 	{
-		engine::Debug::error() << "Game object doesn't exist";
+		Debug::error() << "Game object doesn't exist";
 		return false;
 	}
 
@@ -66,7 +68,7 @@ void GameObjectManager::purge()
 {
 	//Make sure there are things to delete
 	if (mGameObjects.size() <= 0)
-		engine::Debug::error() << "Game Object Manager: Nothing to purge";
+		Debug::error() << "Game Object Manager: Nothing to purge";
 
 	//Delete all objects
 	for (GameObject* gObj : mGameObjects)
