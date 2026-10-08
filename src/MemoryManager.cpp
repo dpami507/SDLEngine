@@ -116,7 +116,7 @@ MemoryPool* MemoryManager::findBestPool(unsigned int size)
                 closestPool = p;
         }
     }
-    if (!closestPool) std::cout << "ERR// Could not find available pool for sizeof: " << size << "\n";
+    if (!closestPool) engine::Debug::error() << "Could not find available pool for sizeof: " << size << "\n";
 
     return closestPool;
 }

@@ -26,5 +26,5 @@ private:
 	Sprite* mSprite;
 
 	GameObject();
-	~GameObject();
+	~GameObject() = default;
 };

@@ -6,14 +6,6 @@ GameObject::GameObject()
 	transform.position = Vector2::zero();
 	transform.rotationAngle = 0;
 }
-GameObject::~GameObject()
-{
-	if (mSprite != nullptr)
-	{
-		delete mSprite;
-		mSprite = nullptr;
-	}
-}
 //Update gameObject
 void GameObject::update()
 {

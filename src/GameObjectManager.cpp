@@ -54,6 +54,7 @@ bool GameObjectManager::destroy(GameObject* gObj)
 	}
 
 	//Destroy
+	gObj->~GameObject();
 	mMemoryManager->deallocate((Byte*)gObj);
 	mGameObjects.erase(it);
 	return true;
@@ -70,6 +71,7 @@ void GameObjectManager::purge()
 	//Delete all objects
 	for (GameObject* gObj : mGameObjects)
 	{
+		gObj->~GameObject();
 		mMemoryManager->deallocate((Byte*)gObj);
 		//delete gObj;
 	}

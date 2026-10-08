@@ -5,8 +5,11 @@
 
 Game* Game::mpsInstance = nullptr;
 
-const uint8_t GAME_OBJECT_SIZE = sizeof(GameObject);
-const uint16_t MAX_GAME_OBJECT_COUNT = 16;
+const uint8_t GAME_OBJ_SIZE = sizeof(GameObject);
+const uint16_t MAX_GAME_OBJ_COUNT = 16;
+
+const uint8_t AUDIO_CLIP_SIZE = SoundManager::getAudioSizeof();
+const uint16_t MAX_AUDIO_CLIPS = 16;
 
 //Create static instance
 Game* Game::createInstance()
@@ -46,10 +49,10 @@ bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& g
     mMemoryManager = new MemoryManager();
 
     bool init = true;
+    init &= mMemoryManager->init({ GAME_OBJ_SIZE, AUDIO_CLIP_SIZE }, { MAX_GAME_OBJ_COUNT, MAX_AUDIO_CLIPS });
     init &= mGraphicsSystem->init(width, height);
     init &= mGameObjectManager->init(mMemoryManager);
-    init &= mSoundManager->init();
-    init &= mMemoryManager->init({ GAME_OBJECT_SIZE }, { MAX_GAME_OBJECT_COUNT });
+    init &= mSoundManager->init(mMemoryManager);
 
     if (init == true)
     {
@@ -86,7 +89,7 @@ void Game::cleanup()
 void Game::doLoop()
 {
     //Load sounds
-    mSoundManager->loadClip("explosion", "resources/boom_x.wav");
+    mSoundManager->loadAudio("explosion", "resources/explosion.wav");
 
     //Create player
     Sprite* sprite = new Sprite("resources/dvd.png", 125, 58);
@@ -142,25 +145,25 @@ void Game::doLoop()
         {
             dir.y = -1;
             player->sprite()->setColor(Color::getRandColor());
-            mSoundManager->playClip("explosion");
+            mSoundManager->playAudio("explosion");
         }
         if (player->transform.position.x > mGraphicsSystem->getWindowWidth() - player->sprite()->width())
         {
             dir.x = -1;
             player->sprite()->setColor(Color::getRandColor());
-            mSoundManager->playClip("explosion");
+            mSoundManager->playAudio("explosion");
         }
         if (player->transform.position.y < 0)
         {
             dir.y = 1;
             player->sprite()->setColor(Color::getRandColor());
-            mSoundManager->playClip("explosion");
+            mSoundManager->playAudio("explosion");
         }
         if (player->transform.position.x < 0)
         {
             dir.x = 1;
             player->sprite()->setColor(Color::getRandColor());
-            mSoundManager->playClip("explosion");
+            mSoundManager->playAudio("explosion");
         }
 
         //take the normalized direction and multiply it by the speed

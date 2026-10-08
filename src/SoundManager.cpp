@@ -1,92 +1,140 @@
 #include "SoundManager.h"
+#include "Debug.h"
 
-SoundManager::SoundManager()
-{
-}
+#include "MemoryManager.h"
 
 SoundManager::~SoundManager()
 {
-	cleanup();
+    cleanup();
 }
 
-bool SoundManager::init()
+bool SoundManager::init(MemoryManager* memoryManager)
 {
-	//Init SDL Audio
-	if (SDL_Init(SDL_INIT_AUDIO) == false)
-	{
-		engine::Debug::error() << "Could not initialize SDL Audio: " << SDL_GetError();
-		return false;
-	}
-	//Init SDL Mixer
-	if(MIX_Init() == false)
-	{
-		engine::Debug::error() << "Could not initialize SDL_mixer: " << SDL_GetError();
-		return false;
-	}
-	//Create a mixer
-	mMixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
-	if (mMixer == nullptr)
-	{
-		engine::Debug::error() << "Could not create a mixer: " << SDL_GetError();
-		return false;
-	}
+    // Init SDL Audio
+    if (!SDL_Init(SDL_INIT_AUDIO))
+    {
+        engine::Debug::error() << "SDL Audio could not be loaded!";
+        return false;
+    }
 
-	engine::Debug::log(engine::DBG_BLUE, "[INIT]") << "Sound Manger Inititialized";
-	return true;
+    mMemoryManager = memoryManager;
+
+    // Create Loaded Audio
+    mSpec = new SDL_AudioSpec();
+    mSpec->channels = 2;
+    mSpec->format = SDL_AUDIO_F32;
+    mSpec->freq = 44100;
+
+    for (int i = 0; i < STREAM_COUNT; i++)
+    {
+        // Create the Audio Stream
+        mStreams[i] = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, mSpec, NULL, NULL);
+        if (!mStreams) {
+            engine::Debug::error() << "Couldn't create audio stream: " << SDL_GetError();
+            return false;
+        }
+        // Unpause the stream
+        SDL_ResumeAudioStreamDevice(mStreams[i]);
+    }
+
+    engine::Debug::log(engine::DBG_BLUE, "[INIT]") << "Sound Manager Inititialized";
+    return true;
 }
-
 void SoundManager::cleanup()
 {
-	//Destroy all clips
-	for (auto c : mAudioClips)
-	{
-		delete c.second;
-	}
-	mAudioClips.clear();
+    engine::Debug::log(engine::DBG_YELLOW, "[CLEANUP]") << "Cleaning up Sound Manager";
 
-	//Destroy the mixer
-	MIX_DestroyMixer(mMixer);
+    // Cleanup loaded audio
+    for (auto a : mLoadedAudio)
+    {
+        SDL_free(a.second->sWavData);
+        mMemoryManager->deallocate((Byte*)a.second);
+    }
+    mLoadedAudio.clear();
 
-	MIX_Quit();
+    // Cleanup streams
+    for (auto& s : mStreams)
+    {
+        if (s != nullptr)
+        {
+            SDL_DestroyAudioStream(s);
+            s = nullptr;
+        }
+    }
 }
 
-//Load clip to the manager
-bool SoundManager::loadClip(const std::string& key, const std::string& filename)
+bool SoundManager::loadAudio(std::string key, std::string path)
 {
-	//Make sure it doesnt exits
-	auto it = mAudioClips.find(key);
-	if (it != mAudioClips.end()) {
-		engine::Debug::error() << key << " already exists!";
-		return false;
-	}
+    // Check for audio
+    if (mLoadedAudio.find(key) != mLoadedAudio.end())
+    {
+        engine::Debug::error() << "Key: " << key << " already exists!";
+        return false;
+    }
 
-	AudioClip* newClip = new AudioClip();
+    // Create Loaded Audio
+    Byte* allocByte = mMemoryManager->allocate(sizeof(LoadedAudio));
+    if (allocByte == nullptr) return false;
 
-	//Load WAV file
-	newClip->audio = MIX_LoadAudio(mMixer, filename.c_str(), true);
-	if (newClip->audio == nullptr) {
-		engine::Debug::error() << "Failed to load WAV: " << SDL_GetError();
-	}
+    LoadedAudio* newAudio = new (allocByte) LoadedAudio();
 
-	//Add to audio clips
-	mAudioClips.insert({ key, newClip });
+    // Load the file
+    if (!SDL_LoadWAV(path.c_str(), &newAudio->sSpec, &newAudio->sWavData, &newAudio->sLength))
+    {
+        engine::Debug::error() << "Failed to load audio path: " << path << ": " << SDL_GetError();
+        return false;
+    }
 
-	return true;
+    // Insert
+    mLoadedAudio.insert({ key, newAudio });
+    return true;
 }
-
-//Play clip from loaded clip
-bool SoundManager::playClip(const std::string& key)
+bool SoundManager::playAudio(std::string key)
 {
-	//Make sure it exists
-	auto it = mAudioClips.find(key);
-	if (it == mAudioClips.end()) {
-		engine::Debug::error() << key << " doesn't exist!";
-		return false;
-	}
+    // Make sure the key is real
+    auto it = mLoadedAudio.find(key);
+    if (it == mLoadedAudio.end())
+    {
+        engine::Debug::error() << "Key: " << key << " wasn't found!";
+        return false;
+    }
 
-	//Play it
-	MIX_PlayAudio(mMixer, mAudioClips.at(key)->audio);
+    // Load Audio and put it into the stream
+    LoadedAudio* audio = it->second;
 
-	return true;
+    // Convert the WAV
+    uint8_t* convertedBuffer = nullptr;
+    int convertedLength = 0;
+    if (!SDL_ConvertAudioSamples(&audio->sSpec, audio->sWavData, audio->sLength, mSpec, &convertedBuffer, &convertedLength))
+    {
+        engine::Debug::error() << "Audio conversion failed: " << SDL_GetError();
+        return false;
+    }
+
+    SDL_AudioStream* stream = getAvailableStream();
+    if (stream != nullptr)
+    {
+        SDL_PutAudioStreamData(stream, convertedBuffer, convertedLength);
+
+        SDL_free(convertedBuffer);
+
+        return true;
+    }
+
+    SDL_free(convertedBuffer);
+    return false;
 }
 
+SDL_AudioStream* SoundManager::getAvailableStream()
+{
+    for (int i = 0; i < STREAM_COUNT; i++)
+    {
+        if (SDL_GetAudioStreamAvailable(mStreams[i]) == 0)
+        {
+            return mStreams[i];
+        }
+    }
+
+    engine::Debug::error() << "All audio streams are in use!";
+    return nullptr;
+}
