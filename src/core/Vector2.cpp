@@ -1,5 +1,7 @@
 #include "Vector2.h"
 
+using namespace engine::math;
+
 //Return normalizied value
 Vector2 Vector2::normalized()
 {

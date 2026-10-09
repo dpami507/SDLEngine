@@ -1,5 +1,7 @@
 #include "Color.h"
 
+using namespace engine::color;
+
 Color::Color()
 {
 	setRed(255);

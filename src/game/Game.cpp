@@ -12,6 +12,9 @@ const uint8_t AUDIO_CLIP_SIZE = SoundManager::getAudioSizeof();
 const uint16_t MAX_AUDIO_CLIPS = 16;
 
 using namespace engine::debug;
+using namespace engine::math;
+using namespace engine::time;
+using namespace engine::color;
 
 // TODO
 // - Fix Sprite to not need the Game Lib

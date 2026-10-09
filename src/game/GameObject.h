@@ -6,7 +6,7 @@
 
 struct Transform : public Tracked
 {
-	Vector2 position;
+	engine::math::Vector2 position;
 	float rotationAngle;
 };
 

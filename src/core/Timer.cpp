@@ -1,7 +1,7 @@
 #include "Timer.h"
 #include <thread>
 
-using namespace std::chrono;
+using namespace engine::time;
 
 Timer::Timer() :mElapsedTime(0.0), mPaused(true), mFactor(1.0), mLastFactor(1.0)
 {

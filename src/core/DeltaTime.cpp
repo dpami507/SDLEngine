@@ -1,5 +1,7 @@
 #include "DeltaTime.h"
 
+using namespace engine::time;
+
 void DeltaTime::start()
 {
 	mLastTime = std::chrono::steady_clock::now();

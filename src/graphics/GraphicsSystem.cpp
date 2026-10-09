@@ -1,6 +1,7 @@
 #include "GraphicsSystem.h"
 
 using namespace engine::debug;
+using namespace engine::color;
 
 GraphicsSystem::GraphicsSystem()
 {

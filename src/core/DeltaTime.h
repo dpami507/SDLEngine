@@ -1,16 +1,19 @@
 #pragma once
 #include <chrono>
 
-class DeltaTime
+namespace engine::time
 {
-public:
-	DeltaTime() = default;
-	~DeltaTime() = default;
+	class DeltaTime
+	{
+	public:
+		DeltaTime() = default;
+		~DeltaTime() = default;
 
-	void start();
-	void update();
-	inline double get() { return mDeltaTime; }
-private:
-	std::chrono::steady_clock::time_point mLastTime;
-	double mDeltaTime = 0;
-};
+		void start();
+		void update();
+		inline double get() { return mDeltaTime; }
+	private:
+		std::chrono::steady_clock::time_point mLastTime;
+		double mDeltaTime = 0;
+	};
+}

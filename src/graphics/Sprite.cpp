@@ -1,6 +1,9 @@
 #include "Sprite.h"
 #include "Game.h"
 
+using namespace engine::color;
+using namespace engine::math;
+
 Sprite::Sprite(const std::string& filePath, const float& width, const float& height)
 {
 	//Set width and height

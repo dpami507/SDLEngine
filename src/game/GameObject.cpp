@@ -1,5 +1,7 @@
 #include "GameObject.h"
 
+using namespace engine::math;
+
 GameObject::GameObject()
 {
 	mSprite = nullptr;

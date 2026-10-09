@@ -4,43 +4,46 @@
 
 #include "Tracked.h"
 
-class Vector2 : public Tracked
+namespace engine::math
 {
-public:
-    static inline Vector2 zero() { return Vector2(0, 0); }
-    static inline Vector2 one() { return Vector2(1, 1); }
+    class Vector2 : public Tracked
+    {
+    public:
+        static inline Vector2 zero() { return Vector2(0, 0); }
+        static inline Vector2 one() { return Vector2(1, 1); }
 
-    static inline Vector2 up() { return Vector2(0, 1); }
-    static inline Vector2 down() { return Vector2(0, -1); }
-    static inline Vector2 right() { return Vector2(1, 0); }
-    static inline Vector2 left() { return Vector2(-1, 0); }
+        static inline Vector2 up() { return Vector2(0, 1); }
+        static inline Vector2 down() { return Vector2(0, -1); }
+        static inline Vector2 right() { return Vector2(1, 0); }
+        static inline Vector2 left() { return Vector2(-1, 0); }
 
-    Vector2(double x = 0, double y = 0) : x(x), y(y) {}
+        Vector2(double x = 0, double y = 0) : x(x), y(y) {}
 
-    //Return normalizied value
-    Vector2 normalized();
-    //Return magnitude
-    double magnitude();
+        //Return normalizied value
+        Vector2 normalized();
+        //Return magnitude
+        double magnitude();
 
-    //Vector Addition
-    Vector2 operator+(const Vector2& lVector) const;
-    Vector2& operator+=(const Vector2& lVector);
+        //Vector Addition
+        Vector2 operator+(const Vector2& lVector) const;
+        Vector2& operator+=(const Vector2& lVector);
 
-    //Vector Subraction
-    Vector2 operator-(const Vector2& lVector) const;
-    Vector2& operator-=(const Vector2& lVector);
+        //Vector Subraction
+        Vector2 operator-(const Vector2& lVector) const;
+        Vector2& operator-=(const Vector2& lVector);
 
-    //Vector Multiply with Double
-    Vector2 operator*(const double& lDouble) const;
-    Vector2& operator*=(const double& lDouble);
+        //Vector Multiply with Double
+        Vector2 operator*(const double& lDouble) const;
+        Vector2& operator*=(const double& lDouble);
 
-    //Dot Product
-    double Dot(const Vector2& otherVector);
-    static double Dot(const Vector2& aVector, const Vector2& bVector);
+        //Dot Product
+        double Dot(const Vector2& otherVector);
+        static double Dot(const Vector2& aVector, const Vector2& bVector);
 
-    //Cout
-    friend std::ostream& operator<<(std::ostream& os, const Vector2& vector);
+        //Cout
+        friend std::ostream& operator<<(std::ostream& os, const Vector2& vector);
 
-    //Variables
-    double x, y;
-};
+        //Variables
+        double x, y;
+    };
+}

@@ -15,15 +15,15 @@ public:
 	SDL_Surface* getSurface() const { return mSurface; }
 	unsigned int width() const { return mWidth; }
 	unsigned int height() const { return mHeight; }
-	Vector2 size() const { return Vector2(mWidth, mHeight); }
+	engine::math::Vector2 size() const { return engine::math::Vector2(mWidth, mHeight); }
 
-	void setColor(const Color& color) { mColor = color; }
-	void draw(Vector2 position, float angle);
+	void setColor(const engine::color::Color& color) { mColor = color; }
+	void draw(engine::math::Vector2 position, float angle);
 
 private:
 	SDL_Surface* mSurface;
 	SDL_Texture* mTexture;
-	Color mColor;
+	engine::color::Color mColor;
 
 	SDL_FRect mRect;
 	SDL_FPoint mRectCenter;
