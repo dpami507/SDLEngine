@@ -2,14 +2,14 @@
 #include <iostream>
 #include <cassert>
 
-#include "src/Game.h"
-#include "src/Vector2.h"
-#include "src/Sprite.h"
-#include "src/GameObject.h"
-#include "src/MemoryTracker.h"
-#include "src/Timer.h"
-#include "src/Debug.h"
-#include "src/DeltaTime.h"
+#include "Game.h"
+#include "Vector2.h"
+#include "Sprite.h"
+#include "GameObject.h"
+#include "MemoryTracker.h"
+#include "Timer.h"
+#include "Debug.h"
+#include "DeltaTime.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;

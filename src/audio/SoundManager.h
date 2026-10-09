@@ -9,7 +9,6 @@
 #include "Tracked.h"
 
 class MemoryManager;
-
 const int STREAM_COUNT = 8;
 
 class SoundManager : public Tracked

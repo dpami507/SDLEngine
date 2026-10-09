@@ -13,6 +13,11 @@ const uint16_t MAX_AUDIO_CLIPS = 16;
 
 using namespace engine::debug;
 
+// TODO
+// - Fix Sprite to not need the Game Lib
+// -
+//
+
 //Create static instance
 Game* Game::createInstance()
 {
