@@ -17,7 +17,6 @@ using namespace engine::time;
 using namespace engine::color;
 
 // TODO
-// - Fix Sprite to not need the Game Lib
 // -
 //
 
@@ -34,7 +33,6 @@ Game* Game::instnace()
     {
         createInstance();
     }
-
     return mpsInstance;
 }
 //Remove and cleanup static instance
@@ -63,6 +61,7 @@ bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& g
     init &= mGraphicsSystem->init(width, height);
     init &= mGameObjectManager->init(mMemoryManager);
     init &= mSoundManager->init(mMemoryManager);
+    init &= mEventSystem->init();
 
     if (init == true)
     {
@@ -94,6 +93,9 @@ void Game::cleanup()
 
     delete mMemoryManager;
     mMemoryManager = nullptr;
+
+    delete mEventSystem;
+    mEventSystem = nullptr;
 }
 
 void Game::doLoop()
@@ -123,8 +125,6 @@ void Game::doLoop()
 
     deltaTime.start();
     while (mRunning) {
-        SDL_Event event;
-
         //Start timer
         frameTimer.start();
         deltaTime.update();
@@ -132,23 +132,7 @@ void Game::doLoop()
         //Clear the screen to a color
         mGraphicsSystem->clearToColor({ 0, 0, 0, 255 });
 
-        //Wait for events
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_EVENT_QUIT)
-            {
-                Debug::warn() << "Quiting...";
-                stop();
-            }
-            //Debug which key was pressed down
-            else if (event.type == SDL_EVENT_KEY_DOWN)
-            {
-                Debug::log() << "a key was pressed: " << event.key.key;
-            }
-        }
-        //Stop if we hit the escape button
-        if (keys[SDL_SCANCODE_ESCAPE])
-            stop();
+        mEventSystem->update();
 
         //Change direction if we hit a wall
         if (player->transform.position.y > mGraphicsSystem->getWindowHeight() - player->sprite()->height())

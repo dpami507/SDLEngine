@@ -34,7 +34,7 @@ FetchContent_MakeAvailable(asio)
 
 add_subdirectory(src/audio)
 add_subdirectory(src/core)
-# add_subdirectory(src/events)
+add_subdirectory(src/events)
 add_subdirectory(src/game)
 add_subdirectory(src/graphics)
 add_subdirectory(src/memory)
