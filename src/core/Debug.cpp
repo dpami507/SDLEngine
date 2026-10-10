@@ -46,7 +46,7 @@ DebugStream Debug::success()
 /*
 Logs a warning to the console in yellow
 */
-DebugStream Debug::warning()
+DebugStream Debug::warn()
 {
 	return DebugStream("[WARN]", DBG_YELLOW);
 }

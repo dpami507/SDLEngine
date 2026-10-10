@@ -87,7 +87,7 @@ namespace engine::debug
 
 		static DebugStream log(DebugColor color = DBG_WHITE, std::string prefix = "[LOG]");
 		static DebugStream success();
-		static DebugStream warning();
+		static DebugStream warn();
 		static DebugStream error();
 
 	private:

@@ -47,7 +47,7 @@ void Game::removeInstance()
 //Initialize the Game
 bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& gameFPS)
 {
-    Debug::warning() << "Initializing Game";
+    Debug::warn() << "Initializing Game";
 
     //Set game variables
     setFPS(gameFPS);
@@ -137,7 +137,7 @@ void Game::doLoop()
         {
             if (event.type == SDL_EVENT_QUIT)
             {
-                Debug::warning() << "Quiting...";
+                Debug::warn() << "Quiting...";
                 stop();
             }
             //Debug which key was pressed down
