@@ -1,18 +1,21 @@
 #include "Sprite.h"
-#include "Game.h"
+#include "GraphicsSystem.h"
 
 using namespace engine::color;
 using namespace engine::math;
 
-Sprite::Sprite(const std::string& filePath, const float& width, const float& height)
+Sprite::Sprite(GraphicsSystem* graphicsSystem, const std::string& filePath, float width, float height)
 {
+	// Set Graphics System
+	mGraphicsSystem = graphicsSystem;
+
 	//Set width and height
 	mWidth = width;
 	mHeight = height;
 
 	//Load image and create texture
 	mSurface = SDL_LoadPNG(filePath.c_str());
-	mTexture = SDL_CreateTextureFromSurface(Game::instnace()->getGraphicsSystem()->getRenderer(), mSurface);
+	mTexture = SDL_CreateTextureFromSurface(mGraphicsSystem->getRenderer(), mSurface);
 
 	//Create rect it will go on
 	mRect = { 0, 0, width, height };
@@ -42,5 +45,5 @@ void Sprite::draw(Vector2 position, float angle)
 	SDL_SetTextureColorMod(mTexture, mColor.getRed(), mColor.getGreen(), mColor.getBlue());
 
 	//Draw texture to renderer
-	SDL_RenderTextureRotated(Game::instnace()->getGraphicsSystem()->getRenderer(), mTexture, NULL, &mRect, angle, &mRectCenter, SDL_FLIP_NONE);
+	SDL_RenderTextureRotated(mGraphicsSystem->getRenderer(), mTexture, NULL, &mRect, angle, &mRectCenter, SDL_FLIP_NONE);
 }

@@ -102,7 +102,7 @@ void Game::doLoop()
     mSoundManager->loadAudio("explosion", "resources/explosion.wav");
 
     //Create player
-    Sprite* sprite = new Sprite("resources/dvd.png", 125, 58);
+    Sprite* sprite = new Sprite(mGraphicsSystem, "resources/dvd.png", 125, 58);
     GameObject* player = mGameObjectManager->instantiate();
     player->setSprite(sprite);
 
