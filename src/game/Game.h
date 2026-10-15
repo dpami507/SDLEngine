@@ -8,6 +8,7 @@
 #include "SoundManager.h"
 #include "MemoryManager.h"
 #include "EventSystem.h"
+#include "InputTranslator.h"
 
 static class Game : public Tracked
 {
@@ -48,7 +49,7 @@ private:
 	GraphicsSystem* mGraphicsSystem = nullptr;
 	SoundManager* mSoundManager = nullptr;
 	MemoryManager* mMemoryManager = nullptr;
-	EventSystem* mEventSystem = nullptr;
+	InputTranslator* mInputTranslator = nullptr;
 
 	//Game FPS
 	uint32_t mFPS = 30;

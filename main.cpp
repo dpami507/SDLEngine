@@ -10,6 +10,7 @@
 #include "Timer.h"
 #include "Debug.h"
 #include "DeltaTime.h"
+#include "EventSystem.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -21,9 +22,14 @@ int main(int argc, char* argv[]) {
     //   a. Add Input System (wait for event ststem in garch)
     //
 
+    // Init Events
+    EventSystem::createInstance();
+    EventSystem::instance()->init();
+
     //Init Game
     Game::createInstance();
     Game::instnace()->init(SCREEN_WIDTH, SCREEN_HEIGHT, 60);
+
 
     // THE LOOP
     Game::instnace()->doLoop();
@@ -31,6 +37,8 @@ int main(int argc, char* argv[]) {
     //Cleanup
     Game::instnace()->cleanup();
     Game::removeInstance();
+    EventSystem::instance()->cleanup();
+    EventSystem::removeInstance();
 
     //Print any leftover memory allocations
     MemoryTracker::instance()->printAllocations();

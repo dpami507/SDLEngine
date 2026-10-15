@@ -55,13 +55,14 @@ bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& g
     mGraphicsSystem = new GraphicsSystem();
     mSoundManager = new SoundManager();
     mMemoryManager = new MemoryManager();
+    mInputTranslator = new InputTranslator();
 
     bool init = true;
     init &= mMemoryManager->init({ GAME_OBJ_SIZE, AUDIO_CLIP_SIZE }, { MAX_GAME_OBJ_COUNT, MAX_AUDIO_CLIPS });
     init &= mGraphicsSystem->init(width, height);
     init &= mGameObjectManager->init(mMemoryManager);
     init &= mSoundManager->init(mMemoryManager);
-    init &= mEventSystem->init();
+    mInputTranslator->init();
 
     if (init == true)
     {
@@ -94,8 +95,8 @@ void Game::cleanup()
     delete mMemoryManager;
     mMemoryManager = nullptr;
 
-    delete mEventSystem;
-    mEventSystem = nullptr;
+    delete mInputTranslator;
+    mInputTranslator = nullptr;
 }
 
 void Game::doLoop()
@@ -132,7 +133,7 @@ void Game::doLoop()
         //Clear the screen to a color
         mGraphicsSystem->clearToColor({ 0, 0, 0, 255 });
 
-        mEventSystem->update();
+        EventSystem::instance()->update();
 
         //Change direction if we hit a wall
         if (player->transform.position.y > mGraphicsSystem->getWindowHeight() - player->sprite()->height())

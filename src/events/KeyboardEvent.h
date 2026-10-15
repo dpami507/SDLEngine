@@ -1,8 +1,9 @@
+#pragma once
 #include "EventSystem.h"
 
 enum KeyEventType
 {
-	PRESSED = EventType::END_EVENT_TYPES,
+	PRESSED = END_EVENT_TYPES,
 	RELEASED,
 	END_KEY_EVENTS
 };
@@ -10,19 +11,11 @@ enum KeyEventType
 class KeyEvent : public Event
 {
 public:
-	KeyEvent(KeyEventType type, uint32_t keyCode) : mKeyCode(keyCode), Event(type) {}
-	~KeyEvent();
+	KeyEvent(KeyEventType type, int keyCode) : mKeyCode(keyCode), Event(EventType(type)) {}
+	~KeyEvent() {};
 	
-	inline uint32_t getKeyCode() const { return mKeyCode; }
+	inline int getKeyCode() const { return mKeyCode; }
 
 private:
-	SDL_Keycode mKeyCode;
+	int mKeyCode;
 };
-
-KeyEvent::KeyEvent()
-{
-}
-
-KeyEvent::~KeyEvent()
-{
-}

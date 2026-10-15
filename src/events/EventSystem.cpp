@@ -1,16 +1,12 @@
 #include "EventSystem.h"
 
+#include "KeyboardEvent.h"
+
+#include "SDL3/SDL_events.h"
+
 using namespace engine::debug;
 
 EventSystem* EventSystem::mspInstance = nullptr;
-
-EventSystem::EventSystem()
-{
-}
-
-EventSystem::~EventSystem()
-{
-}
 
 EventSystem* EventSystem::instance()
 {
@@ -21,12 +17,8 @@ void EventSystem::removeInstance()
 	delete mspInstance;
 	mspInstance = nullptr;
 }
-EventSystem* EventSystem::destroyInstance()
+EventSystem* EventSystem::createInstance()
 {
-	if (mspInstance != nullptr)
-	{
-		removeInstance();
-	}
 	mspInstance = new EventSystem();
 	return mspInstance;
 }
@@ -35,7 +27,6 @@ bool EventSystem::init()
 {
 	return true;
 }
-
 void EventSystem::update()
 {
 	SDL_Event pEvent;
@@ -51,15 +42,16 @@ void EventSystem::update()
 			//stop();
 			break;
 		case SDL_EVENT_KEY_DOWN:
-			Debug::log() << "a key was pressed: " << pEvent.key.key;
-			//Stop if we hit the escape button
-			if (pEvent.key.key == SDLK_ESCAPE)
-				Debug::warn() << "Quiting...";
-			//stop();
+			fireEvent(KeyEvent(KeyEventType(KEYBOARD_EVENT), pEvent.key.key));
+			break;
 		default:
 			break;
 		}
 	}
+}
+void EventSystem::cleanup()
+{
+
 }
 
 void EventSystem::fireEvent(const Event& pEvent)

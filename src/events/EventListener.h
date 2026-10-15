@@ -11,7 +11,7 @@ public:
 	EventListener();
 	virtual ~EventListener();
 
-	virtual void handleEvent(const Event& theEvent) = 0;
+	virtual void handleEvent(const Event& event) = 0;
 
 private:
 };

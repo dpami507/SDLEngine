@@ -1,5 +1,5 @@
+#pragma once
 #include "Tracked.h"
-#include "SDL3/SDL_events.h"
 #include "Debug.h"
 
 #include "EventListener.h"
@@ -13,6 +13,7 @@ enum EventType
 	KEYBOARD_EVENT,		 // Released / Pressed, key code
 	END_EVENT_TYPES,
 };
+
 class Event
 {
 public:
@@ -27,12 +28,12 @@ private:
 class EventSystem : public Tracked
 {
 public:
-	EventSystem();
-	~EventSystem();
+	EventSystem() = default;
+	~EventSystem() {};
 
 	static EventSystem* instance();
 	static void removeInstance();
-	static EventSystem* destroyInstance();
+	static EventSystem* createInstance();
 
 	bool init();
 	void update();
