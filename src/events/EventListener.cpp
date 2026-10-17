@@ -1,6 +1,8 @@
 #include "EventListener.h"
 #include "EventSystem.h"
 
+using namespace engine::event;
+
 EventListener::EventListener()
 {
 }

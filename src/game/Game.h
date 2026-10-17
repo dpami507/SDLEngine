@@ -10,7 +10,7 @@
 #include "EventSystem.h"
 #include "InputTranslator.h"
 
-static class Game : public Tracked
+static class Game : public EventListener
 {
 public:
 
@@ -28,6 +28,9 @@ public:
 	void setFPS(uint32_t FPS);
 	inline uint32_t getFPS() const { return mFPS; }
 	inline double getFrameLengthMS() const { return mTargetFrameLengthMS; }
+
+	// event
+	void handleEvent(const Event& event) override;
 
 	// Game state 
 	inline bool running() const { return mRunning; }

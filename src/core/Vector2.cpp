@@ -1,70 +1,71 @@
 #include "Vector2.h"
 
-using namespace engine::math;
+namespace engine::math
+{
+    //Return normalizied value
+    Vector2 Vector2::normalized()
+    {
+        if (magnitude() == 0)
+            return Vector2(0, 0);
 
-//Return normalizied value
-Vector2 Vector2::normalized()
-{
-    if (magnitude() == 0)
-        return Vector2(0, 0);
+        return Vector2(x / magnitude(), y / magnitude());
+    }
+    //Return magnitude
+    double Vector2::magnitude()
+    {
+        return sqrt((x * x) + (y * y));
+    }
 
-    return Vector2(x / magnitude(), y / magnitude());
-}
-//Return magnitude
-double Vector2::magnitude()
-{
-    return sqrt((x * x) + (y * y));
-}
+    //Vector Addition
+    Vector2 Vector2::operator+(const Vector2& lVector) const
+    {
+        return Vector2(x + lVector.x, y + lVector.y);
+    }
+    Vector2& Vector2::operator+=(const Vector2& lVector)
+    {
+        x += lVector.x;
+        y += lVector.y;
+        return *this;
+    }
 
-//Vector Addition
-Vector2 Vector2::operator+(const Vector2& lVector) const
-{
-    return Vector2(x + lVector.x, y + lVector.y);
-}
-Vector2& Vector2::operator+=(const Vector2& lVector)
-{
-    x += lVector.x;
-    y += lVector.y;
-    return *this;
-}
+    //Vector Subraction
+    Vector2 Vector2::operator-(const Vector2& lVector) const
+    {
+        return Vector2(x - lVector.x, y - lVector.y);
+    }
+    Vector2& Vector2::operator-=(const Vector2& lVector)
+    {
+        x -= lVector.x;
+        y -= lVector.y;
+        return *this;
+    }
 
-//Vector Subraction
-Vector2 Vector2::operator-(const Vector2& lVector) const
-{
-    return Vector2(x - lVector.x, y - lVector.y);
-}
-Vector2& Vector2::operator-=(const Vector2& lVector)
-{
-    x -= lVector.x;
-    y -= lVector.y;
-    return *this;
-}
+    //Multiplication
+    Vector2 Vector2::operator*(const double& lDouble) const
+    {
+        return Vector2(x * lDouble, y * lDouble);
+    }
+    Vector2& Vector2::operator*=(const double& lDouble)
+    {
+        x *= lDouble;
+        y *= lDouble;
+        return *this;
+    }
 
-//Multiplication
-Vector2 Vector2::operator*(const double& lDouble) const
-{
-    return Vector2(x * lDouble, y * lDouble);
-}
-Vector2& Vector2::operator*=(const double& lDouble)
-{
-    x *= lDouble;
-    y *= lDouble;
-    return *this;
-}
+    //Dot Product
+    double Vector2::dot(const Vector2& otherVector)
+    {
+        return x * otherVector.x + y * otherVector.y;
+    }
+    double Vector2::dot(const Vector2& aVector, const Vector2& bVector)
+    {
+        return aVector.x * bVector.x + aVector.y * bVector.y;
+    }
 
-//Dot Product
-double Vector2::Dot(const Vector2& otherVector)
-{
-    return x * otherVector.x + y * otherVector.y;
-}
-double Vector2::Dot(const Vector2& aVector, const Vector2& bVector)
-{
-    return aVector.x * bVector.x + aVector.y * bVector.y;
-}
-
-//Cout
-std::ostream& operator<<(std::ostream& os, const Vector2& vector)
-{
-    os << "Vector2(" << vector.x << ", " << vector.y << ")";
-    return os;
+    //Cout
+    std::ostream& operator<<(std::ostream& os, const Vector2& vector)
+    {
+        os << "(" << vector.x << ", " << vector.y << ")";
+        return os;
+    }
 }

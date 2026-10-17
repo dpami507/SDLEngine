@@ -6,46 +6,48 @@
 
 #include <map>
 
-enum EventType
+namespace engine::event
 {
-	INVALID = -1,
-	MOUSE_EVENT,	// Holds position and maybe delta, mouse released and mouse down
-	KEYBOARD_EVENT,		 // Released / Pressed, key code
-	END_EVENT_TYPES,
-};
+	enum EventType
+	{
+		INVALID = -1,
+		APP_QUIT_EVENT,
+		END_EVENT_TYPES,
+	};
 
-class Event
-{
-public:
-	inline Event(EventType type) : mType(type) { };
-	~Event() = default;
+	class Event
+	{
+	public:
+		inline Event(EventType type) : mType(type) {};
+		~Event() = default;
 
-	inline EventType getType() const { return mType; }
-private:
-	EventType mType;
-};
+		inline EventType getType() const { return mType; }
+	private:
+		EventType mType;
+	};
 
-class EventSystem : public Tracked
-{
-public:
-	EventSystem() = default;
-	~EventSystem() {};
+	class EventSystem : public Tracked
+	{
+	public:
+		EventSystem() = default;
+		~EventSystem() {};
 
-	static EventSystem* instance();
-	static void removeInstance();
-	static EventSystem* createInstance();
+		static EventSystem* instance();
+		static void removeInstance();
+		static EventSystem* createInstance();
 
-	bool init();
-	void update();
-	void cleanup();
+		bool init();
+		void update();
+		void cleanup();
 
-	void fireEvent(const Event& pEvent);
-	void addListener(const EventType& type, EventListener* listener);
-	void removeListener(const EventType& type, EventListener* listener);
-	void removeListenerFromAllEvents(EventListener* listener);
+		void fireEvent(const Event& pEvent);
+		void addListener(const EventType& type, EventListener* listener);
+		void removeListener(const EventType& type, EventListener* listener);
+		void removeListenerFromAllEvents(EventListener* listener);
 
-private:
-	static EventSystem* mspInstance;
+	private:
+		static EventSystem* mspInstance;
 
-	std::multimap<EventType, EventListener*> mListeners;
-};
+		std::multimap<EventType, EventListener*> mListeners;
+	};
+}

@@ -37,10 +37,10 @@ namespace engine::math
         Vector2& operator*=(const double& lDouble);
 
         //Dot Product
-        double Dot(const Vector2& otherVector);
-        static double Dot(const Vector2& aVector, const Vector2& bVector);
+        double dot(const Vector2& otherVector);
+        static double dot(const Vector2& aVector, const Vector2& bVector);
 
-        //Cout
+        //cout
         friend std::ostream& operator<<(std::ostream& os, const Vector2& vector);
 
         //Variables

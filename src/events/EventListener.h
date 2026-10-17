@@ -1,17 +1,19 @@
 #pragma once
-
 #include "Tracked.h"
 
-class Event;
-class EventSystem;
-
-class EventListener : public Tracked
+namespace engine::event
 {
-public:
-	EventListener();
-	virtual ~EventListener();
+	class Event;
+	class EventSystem;
 
-	virtual void handleEvent(const Event& event) = 0;
+	class EventListener : public Tracked
+	{
+	public:
+		EventListener();
+		virtual ~EventListener();
 
-private:
-};
+		virtual void handleEvent(const Event& event) = 0;
+
+	private:
+	};
+}

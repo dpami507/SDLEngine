@@ -64,21 +64,21 @@ bool Game::init(const uint32_t& width, const uint32_t& height, const uint32_t& g
     init &= mSoundManager->init(mMemoryManager);
     mInputTranslator->init();
 
-    if (init == true)
-    {
-        //It worked!
-        mRunning = true;
-        Debug::success() << "Game Initialized";
-        return true;
-    }
-    else
+    if (init == false)
     {
         mRunning = false;
         Debug::error() << "Game Initialization Failed";
         return false;
     }
-}
 
+    EventSystem::instance()->addListener(APP_QUIT_EVENT, this);
+
+    //It worked!
+    mRunning = true;
+    Debug::success() << "Game Initialized";
+    return true;
+
+}
 //Cleanup managers and Game
 void Game::cleanup()
 {
@@ -98,7 +98,6 @@ void Game::cleanup()
     delete mInputTranslator;
     mInputTranslator = nullptr;
 }
-
 void Game::doLoop()
 {
     //Load sounds
@@ -183,12 +182,19 @@ void Game::setFPS(uint32_t FPS)
     mFPS = FPS;
     mTargetFrameLengthMS = 1000.0 / FPS;
 }
+void Game::handleEvent(const Event& event)
+{
+    if (event.getType() == APP_QUIT_EVENT)
+    {
+        Debug::warn() << "Quiting...";
+        stop();
+    }
+}
 
 Game::Game()
 {
     
 }
-
 Game::~Game()
 {
     cleanup();

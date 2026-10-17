@@ -1,10 +1,11 @@
 #include "EventSystem.h"
-
-#include "KeyboardEvent.h"
+#include "InputEvents.h"
 
 #include "SDL3/SDL_events.h"
 
+using namespace engine::event;
 using namespace engine::debug;
+using namespace engine::math;
 
 EventSystem* EventSystem::mspInstance = nullptr;
 
@@ -35,14 +36,23 @@ void EventSystem::update()
 		switch (pEvent.type)
 		{
 		case SDL_EVENT_MOUSE_MOTION:
-			Debug::log() << pEvent.motion.x << ", " << pEvent.motion.y;
+			fireEvent(MouseMoveEvent(MOUSE_MOVE,
+				Vector2(pEvent.motion.x, pEvent.motion.y), Vector2(pEvent.motion.xrel, pEvent.motion.yrel)));
+			break;
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
+			fireEvent(MouseClickEvent(MOUSE_PRESSED, pEvent.button.button, Vector2(pEvent.motion.x, pEvent.motion.y)));
+			break;
+		case SDL_EVENT_MOUSE_BUTTON_UP:
+			fireEvent(MouseClickEvent(MOUSE_RELEASED, pEvent.button.button, Vector2(pEvent.motion.x, pEvent.motion.y)));
 			break;
 		case SDL_EVENT_QUIT:
-			Debug::warn() << "Quiting...";
-			//stop();
+			fireEvent(Event(APP_QUIT_EVENT));
 			break;
 		case SDL_EVENT_KEY_DOWN:
-			fireEvent(KeyEvent(KeyEventType(KEYBOARD_EVENT), pEvent.key.key));
+			fireEvent(KeyEvent(KeyEventType(KEY_PRESSED), pEvent.key.key));
+			break;
+		case SDL_EVENT_KEY_UP:
+			fireEvent(KeyEvent(KeyEventType(KEY_RELEASED), pEvent.key.key));
 			break;
 		default:
 			break;
@@ -51,7 +61,7 @@ void EventSystem::update()
 }
 void EventSystem::cleanup()
 {
-
+	mListeners.clear();
 }
 
 void EventSystem::fireEvent(const Event& pEvent)
