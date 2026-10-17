@@ -10,6 +10,7 @@
 #include "EventSystem.h"
 #include "InputTranslator.h"
 
+
 static class Game : public EventListener
 {
 public:
@@ -20,9 +21,9 @@ public:
 
 	//Getters
 	inline GameObjectManager* getGameObjectManager() const { return mGameObjectManager; }
-	inline GraphicsSystem* getGraphicsSystem() const { return mGraphicsSystem; }
-	inline SoundManager* getSoundManager() const { return mSoundManager; }
-	inline MemoryManager* getMemoryManager() const { return mMemoryManager; }
+	inline engine::graphics::GraphicsSystem* getGraphicsSystem() const { return mGraphicsSystem; }
+	inline engine::audio::SoundManager* getSoundManager() const { return mSoundManager; }
+	inline engine::memory::MemoryManager* getMemoryManager() const { return mMemoryManager; }
 
 	//time variables
 	void setFPS(uint32_t FPS);
@@ -49,9 +50,9 @@ private:
 
 	//Managers
 	GameObjectManager* mGameObjectManager = nullptr;
-	GraphicsSystem* mGraphicsSystem = nullptr;
-	SoundManager* mSoundManager = nullptr;
-	MemoryManager* mMemoryManager = nullptr;
+	engine::graphics::GraphicsSystem* mGraphicsSystem = nullptr;
+	engine::audio::SoundManager* mSoundManager = nullptr;
+	engine::memory::MemoryManager* mMemoryManager = nullptr;
 	InputTranslator* mInputTranslator = nullptr;
 
 	//Game FPS

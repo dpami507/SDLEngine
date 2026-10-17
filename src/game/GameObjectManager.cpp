@@ -6,7 +6,7 @@ using namespace engine::debug;
 /*
 Initalize the Manger
 */
-bool GameObjectManager::init(MemoryManager* pMemoryManager)
+bool GameObjectManager::init(engine::memory::MemoryManager* pMemoryManager)
 {
 	mMemoryManager = pMemoryManager;
 

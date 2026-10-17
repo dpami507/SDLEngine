@@ -6,7 +6,7 @@ namespace engine::event
 	class Event;
 	class EventSystem;
 
-	class EventListener : public Tracked
+	class EventListener : public engine::memory::Tracked
 	{
 	public:
 		EventListener();

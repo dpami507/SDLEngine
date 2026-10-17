@@ -26,7 +26,7 @@ namespace engine::event
 		EventType mType;
 	};
 
-	class EventSystem : public Tracked
+	class EventSystem : public engine::memory::Tracked
 	{
 	public:
 		EventSystem() = default;

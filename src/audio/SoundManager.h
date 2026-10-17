@@ -8,36 +8,40 @@
 
 #include "Tracked.h"
 
-class MemoryManager;
-const int STREAM_COUNT = 8;
+namespace engine::memory { class MemoryManager; };
 
-class SoundManager : public Tracked
+namespace engine::audio
 {
-public:
-    SoundManager() = default;
-    ~SoundManager();
+    const int STREAM_COUNT = 8;
 
-    bool init(MemoryManager* memoryManager);
-    void cleanup();
-
-    bool playAudio(std::string key);
-    bool loadAudio(std::string key, std::string path);
-
-    static inline uint8_t getAudioSizeof() { return sizeof(LoadedAudio); }
-
-private:
-    struct LoadedAudio
+    class SoundManager : public engine::memory::Tracked
     {
-        uint8_t* sWavData;
-        uint32_t sLength;
-        SDL_AudioSpec sSpec;
+    public:
+        SoundManager() = default;
+        ~SoundManager();
+
+        bool init(engine::memory::MemoryManager* memoryManager);
+        void cleanup();
+
+        bool playAudio(std::string key);
+        bool loadAudio(std::string key, std::string path);
+
+        static inline uint8_t getAudioSizeof() { return sizeof(LoadedAudio); }
+
+    private:
+        struct LoadedAudio
+        {
+            uint8_t* sWavData;
+            uint32_t sLength;
+            SDL_AudioSpec sSpec;
+        };
+
+        SDL_AudioStream* getAvailableStream();
+
+        std::unordered_map<std::string, LoadedAudio*> mLoadedAudio;
+        SDL_AudioStream* mStreams[STREAM_COUNT];
+        SDL_AudioSpec* mSpec = nullptr;
+
+        engine::memory::MemoryManager* mMemoryManager = nullptr;
     };
-
-    SDL_AudioStream* getAvailableStream();
-
-    std::unordered_map<std::string, LoadedAudio*> mLoadedAudio;
-    SDL_AudioStream* mStreams[STREAM_COUNT];
-    SDL_AudioSpec* mSpec = nullptr;
-
-    MemoryManager* mMemoryManager = nullptr;
-};
+}

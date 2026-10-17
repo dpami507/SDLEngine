@@ -4,17 +4,17 @@
 #include "GameObjectManager.h"
 #include "Tracked.h"
 
-struct Transform : public Tracked
+struct Transform : public engine::memory::Tracked
 {
 	engine::math::Vector2 position;
 	float rotationAngle;
 };
 
-class GameObject : public Tracked
+class GameObject : public engine::memory::Tracked
 {
 public:
-	Sprite* sprite() { return mSprite; }
-	void setSprite(Sprite* sprite) { mSprite = sprite; }
+	engine::graphics::Sprite* sprite() { return mSprite; }
+	void setSprite(engine::graphics::Sprite* sprite) { mSprite = sprite; }
 
 	void update();
 	void draw();
@@ -23,7 +23,7 @@ public:
 private:
 	friend class GameObjectManager;
 
-	Sprite* mSprite;
+	engine::graphics::Sprite* mSprite;
 
 	GameObject();
 	~GameObject() = default;

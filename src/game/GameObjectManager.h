@@ -6,9 +6,10 @@
 #include "Debug.h"
 
 class GameObject;
-class MemoryManager;
 
-class GameObjectManager : public Tracked
+namespace engine::memory { class MemoryManager; };
+
+class GameObjectManager : public engine::memory::Tracked
 {
 public:
 	//Con/Destructors
@@ -16,7 +17,7 @@ public:
 	~GameObjectManager();
 
 	//Manager functions
-	bool init(MemoryManager* pMemoryManager);
+	bool init(engine::memory::MemoryManager* pMemoryManager);
 	void cleanup();
 
 	//Obj creation/deletion
@@ -26,5 +27,5 @@ public:
 
 private:
 	std::vector<GameObject*> mGameObjects;
-	MemoryManager* mMemoryManager = nullptr;
+	engine::memory::MemoryManager* mMemoryManager = nullptr;
 };

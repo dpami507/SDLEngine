@@ -5,29 +5,32 @@
 #include "Debug.h"
 #include "Color.h"
 
-class GraphicsSystem : public Tracked
+namespace engine::graphics
 {
-public:
-	GraphicsSystem();
-	~GraphicsSystem();
+	class GraphicsSystem : public engine::memory::Tracked
+	{
+	public:
+		GraphicsSystem() = default;
+		~GraphicsSystem();
 
-	bool init(const uint32_t width, const uint32_t height);
-	void cleanup();
+		bool init(const uint32_t width, const uint32_t height);
+		void cleanup();
 
-	inline uint32_t getWindowHeight() const { return mScreenHeight; };
-	inline uint32_t getWindowWidth() const { return mScreenWidth; };
+		inline uint32_t getWindowHeight() const { return mScreenHeight; };
+		inline uint32_t getWindowWidth() const { return mScreenWidth; };
 
-	void clearToColor(const engine::color::Color& color);
-	void flip();
+		void clearToColor(const engine::color::Color& color);
+		void flip();
 
-private:
-	SDL_Window* mWindow;
-	SDL_Renderer* mRenderer;
+	private:
+		SDL_Window* mWindow;
+		SDL_Renderer* mRenderer;
 
-	friend class Sprite;
-	SDL_Window* getWindow() { return mWindow; }
-	SDL_Renderer* getRenderer() { return mRenderer; }
+		friend class Sprite;
+		SDL_Window* getWindow() { return mWindow; }
+		SDL_Renderer* getRenderer() { return mRenderer; }
 
-	uint32_t mScreenWidth;
-	uint32_t mScreenHeight;
-};
+		uint32_t mScreenWidth;
+		uint32_t mScreenHeight;
+	};
+}

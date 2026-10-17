@@ -6,7 +6,7 @@
 
 namespace engine::math
 {
-    class Vector2 : public Tracked
+    class Vector2 : public engine::memory::Tracked
     {
     public:
         static inline Vector2 zero() { return Vector2(0, 0); }

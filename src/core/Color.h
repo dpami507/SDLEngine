@@ -7,7 +7,7 @@
 
 namespace engine::color
 {
-	class Color : public Tracked
+	class Color : public engine::memory::Tracked
 	{
 	public:
 		Color();

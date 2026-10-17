@@ -3,6 +3,14 @@
 #include "Timer.h"
 #include "DeltaTime.h"
 
+using namespace engine::debug;
+using namespace engine::math;
+using namespace engine::color;
+using namespace engine::audio;
+using namespace engine::memory;
+using namespace engine::graphics;
+using namespace engine::time;
+
 Game* Game::mpsInstance = nullptr;
 
 const uint8_t GAME_OBJ_SIZE = sizeof(GameObject);
@@ -10,11 +18,6 @@ const uint16_t MAX_GAME_OBJ_COUNT = 16;
 
 const uint8_t AUDIO_CLIP_SIZE = SoundManager::getAudioSizeof();
 const uint16_t MAX_AUDIO_CLIPS = 16;
-
-using namespace engine::debug;
-using namespace engine::math;
-using namespace engine::time;
-using namespace engine::color;
 
 // TODO
 // -

@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
     EventSystem::removeInstance();
 
     //Print any leftover memory allocations
-    MemoryTracker::instance()->printAllocations();
+    engine::memory::MemoryTracker::instance()->printAllocations();
 
     //Quit
     SDL_Quit();

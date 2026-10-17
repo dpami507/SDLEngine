@@ -2,7 +2,7 @@
 #include "Tracked.h"
 
 template < class T >
-class CircularQueue : public Tracked
+class CircularQueue : public engine::memory::Tracked
 {
 public:
     explicit CircularQueue(uint32_t size)
