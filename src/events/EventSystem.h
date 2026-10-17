@@ -30,7 +30,7 @@ namespace engine::event
 	{
 	public:
 		EventSystem() = default;
-		~EventSystem() {};
+		~EventSystem() { cleanup(); };
 
 		static EventSystem* instance();
 		static void removeInstance();

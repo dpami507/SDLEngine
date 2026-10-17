@@ -18,6 +18,8 @@ Destroys the Manger
 */
 void GameObjectManager::cleanup()
 {
+	Debug::log(DBG_YELLOW, "[CLEANUP]") << "Cleaning up Game Object Manager";
+
 	//Purge the vector
 	purge();
 }

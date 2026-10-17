@@ -35,9 +35,7 @@ int main(int argc, char* argv[]) {
     Game::instnace()->doLoop();
 
     //Cleanup
-    Game::instnace()->cleanup();
     Game::removeInstance();
-    EventSystem::instance()->cleanup();
     EventSystem::removeInstance();
 
     //Print any leftover memory allocations

@@ -26,6 +26,7 @@ EventSystem* EventSystem::createInstance()
 
 bool EventSystem::init()
 {
+	Debug::log(DBG_BLUE, "[INIT]") << "Event System Inititialized";
 	return true;
 }
 void EventSystem::update()
@@ -61,6 +62,7 @@ void EventSystem::update()
 }
 void EventSystem::cleanup()
 {
+	Debug::log(DBG_YELLOW, "[CLEANUP]") << "Cleaning up Event System";
 	mListeners.clear();
 }
 

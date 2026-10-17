@@ -19,11 +19,15 @@ bool MemoryManager::init(const std::vector<unsigned int>& sizes, const std::vect
         Debug::error() << "Memory Manager: sizes array length is not equal to slots array size";
         return false;
     }
+
+    Debug::log(DBG_BLUE, "[INIT]") << "Memory Manager Inititialized";
     return true;
 }
 
 void MemoryManager::cleanup()
 {
+    Debug::log(DBG_YELLOW, "[CLEANUP]") << "Cleaning up Memory Manager";
+
     // Delete all pools and clear it
     for (auto p : mPools)
     {

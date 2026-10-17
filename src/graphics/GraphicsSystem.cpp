@@ -49,6 +49,8 @@ bool GraphicsSystem::init(const uint32_t width, const uint32_t height)
 //Cleanup renderer and window
 void GraphicsSystem::cleanup()
 {
+	Debug::log(DBG_YELLOW, "[CLEANUP]") << "Cleaning up Graphics System";
+
 	//Destroy window and renderer
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyWindow(mWindow);
